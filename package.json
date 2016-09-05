@@ -1,0 +1,40 @@
+{
+  "name": "opamp",
+  "version": "1.0.0",
+  "description": "High-gain web server",
+  "main": "lib/server.js",
+  "private": true,
+  "scripts": {
+    "test": "./node_modules/.bin/mocha --reporter spec"
+  },
+  "keywords": [
+    "server",
+    "http",
+    "https",
+    "backend"
+  ],
+  "author": "Angel Rego",
+  "license": "SEE LICENSE IN LICENSE.md",
+  "dependencies": {
+    "http-proxy": "^1.14.0",
+    "nedb": "^1.8.0",
+    "url-pattern": "^1.0.1",
+    "ws": "^1.1.1"
+  },
+  "devDependencies": {
+    "babel-preset-es2015": "^6.9.0",
+    "chai": "^3.5.0",
+    "chai-http": "^3.0.0",
+    "gulp": "^3.9.1",
+    "gulp-babel": "^6.1.2",
+    "gulp-concat": "^2.6.0",
+    "gulp-replace": "^0.5.4",
+    "gulp-uglify": "^1.5.4",
+    "gulp-util": "^3.0.7",
+    "mocha": "^3.0.2",
+    "morgan": "^1.7.0",
+    "node-module-concat": "^1.3.0",
+    "uglify-js": "^2.7.0",
+    "webpack": "^1.13.2"
+  }
+}
