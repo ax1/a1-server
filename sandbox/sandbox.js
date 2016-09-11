@@ -10,5 +10,10 @@ async function b(){
   console.log(val)
 }
 
-b()
+
+function c(){
+    b()
+}
+
+c()
 console.log('starting')
