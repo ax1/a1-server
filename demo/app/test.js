@@ -2,6 +2,6 @@ module.exports={
   get
 }
 
-function get(request,response,params,callback){
-  callback(null,'hola caracola')
+async function get(request,response,params){
+  return 'just a dynamic test'
 }
