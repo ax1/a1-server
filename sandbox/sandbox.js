@@ -1,13 +1,19 @@
 
 
 async function a(){
-  return 2456
+  //return 2456
+  throw "this function throws errors "
 }
 
 async function b(){
-  var val=await a()
-  console.log('ha pasado por aquí')
-  console.log(val)
+  try{
+    var val=await a()
+    console.log('ha pasado por aquí')
+    console.log(val)
+  }catch(e){
+    console.error(e)
+  }
+
 }
 
 
