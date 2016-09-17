@@ -21,6 +21,7 @@
   "author": "Angel Rego",
   "license": "SEE LICENSE IN LICENSE.md",
   "dependencies": {
+    "bluebird": "^3.4.6",
     "http-proxy": "^1.14.0",
     "nedb": "^1.8.0",
     "url-pattern": "^1.0.1",
