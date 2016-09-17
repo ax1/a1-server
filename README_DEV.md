@@ -13,6 +13,5 @@ npm install babel-plugin-transform-async-to-generator --save-dev
 }
 
 ### Execute
-node_modules/babel-cli/bin/babel-node.js index.js
-npm i node-fetch
-node_modules/babel-cli/bin/babel-node.js index.js
+cd opamp/demo
+../node_modules/babel-cli/bin/babel-node.js index.js
