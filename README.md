@@ -36,6 +36,7 @@ Available options, and their default values:
   staticFolder:'public',
   dynamicFolder:'app',
   rules:{'/':'index.html'}
+  Logger:Logger
 }
 ```
 To create a configuration object just add the properties you want to change, and pass the object when calling server.start()
@@ -219,4 +220,26 @@ server.start(serverConfiguration)
       })
     })
   }  
+```
+
+## Logging
+
+By default no logging is required (performance), but if any of the most popular logging systems (winston, bunyan, log4js, etc...) is a requirement, that logging component can be added in the configuration object.
+
+This way, the developer only need to use the Logger class shipped with the server. If in the future, the real logger is replaced by a new one, no code changes are required, just change the logger in the configuration object.
+
+```javascript
+//STEP-1 configure the Logger in the server
+let configuration={
+  Logger:require('winston')
+}
+server.start(configuration)
+
+//STEP-2 use the standard logger (it behaves as a proxy for your logger)
+//and in any js file
+let Logger=require('opamp/Logger')
+let logger=Logger.getLogger('your-logger-name')
+//...
+logger.error(err)
+
 ```
