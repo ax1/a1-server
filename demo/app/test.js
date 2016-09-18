@@ -3,5 +3,5 @@ module.exports={
 }
 
 async function get(request,response,params){
-  return 'just a dynamic test'
+  return 'hola caracola'
 }
