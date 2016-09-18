@@ -14,16 +14,19 @@
 // }
 
 
-var serverConfiguration={
-  port:8080,
-  rules:{
-    '/cars(/:id)':'/cars',
-    '/prueba(/*)':'http://serverfault.com',
-    '/rest/*':'/services/*'
+var Logger = require('../../lib/Logger')
 
-  }
+var serverConfiguration = {
+  port: 8080,
+  rules: {
+    '/cars(/:id)': '/cars',
+    '/prueba(/*)': 'http://serverfault.com',
+    '/rest/*': '/services/*'
+
+  },
+  Logger: Logger
 }
 
-module.exports={
-  configuration:serverConfiguration
+module.exports = {
+  configuration: serverConfiguration
 }

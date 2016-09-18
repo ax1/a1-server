@@ -6,6 +6,11 @@ let configuration=require("./config/config").configuration
 let WebSocketServer = require('ws').Server
 require('../lib/persistence').start(__dirname+ '/database')
 
+// server.use(require('express-winston').logger({
+//   transports: [
+//     new (require('winston')).transports.Console({ json: true })
+//   ]
+// }))
 
 /**
  * Add express type plugins
