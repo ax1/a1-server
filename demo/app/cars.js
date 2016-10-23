@@ -2,19 +2,23 @@
  * REST example
  */
 
-let db=require('../../lib/persistence').getDB()
+ const db=[
+   {"name":"toyota","engine":"2222","_id":"doKnnvbRCpt7fQaC"},
+   {"name":"toyota","engine":"1111","_id":"tibP9rhyyu3dzTtX"}
+]
 
 module.exports={
   get, post, put, delete:remove
 }
 
 async function get(request,response,params){
-  if (params && Object.keys(params).length>0) return await db.findAsync({_id:params.id})
-  else return await db.findAsync({})
+  if (params && Object.keys(params).length>0) return  db.find(params.id)
+  else return db
 }
 
 async function post(request,response,params){
-  let data=await db.insertAsync(JSON.parse(request.body))
+  const data=request.body
+  db.push(data)
   response.statusCode=201
   let location=request.url
   if (location.endsWith('/')) location=location+data._id
@@ -24,13 +28,16 @@ async function post(request,response,params){
 }
 
 async function put(request,response,params){
-  let numAffected=await db.updateAsync({_id:params.id},JSON.parse(request.body),{})
-  if(numAffected===0)response.statusCode=404
-  else response.statusCode=204
-  return numAffected
+  const found= db.find((el)=>{
+    if(el._id===params.id){el=request.body;return true}
+    else return false
+  })
+  if (!found) throw(404)
+  response.statusCode=204
+  return 1
 }
 
 async function remove(request,response,params){
-  if(params && Object.keys(params).length)  return await db.removeAsync({_id:params.id},{})
-  else return await db.remove({},{multi:true}) //normal http delete doesn't contain body (so if no id, delete all)
+  if(params && Object.keys(params).length)  return db.remove(params.id).length
+  else return db.splice(0).lenght
 }
