@@ -1,10 +1,10 @@
 let server=require("../lib/server")
 //let server=require("../lib/server")
-let morgan=require('morgan')
+//let morgan=require('morgan')
 let configuration=require("./config/config").configuration
 //let fs = require("fs")
 let WebSocketServer = require('ws').Server
-require('../lib/persistence').start(__dirname+ '/database')
+//require('../lib/persistence').start(__dirname+ '/database')
 
 // server.use(require('express-winston').logger({
 //   transports: [

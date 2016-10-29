@@ -18,7 +18,11 @@ cd opamp/demo
 
 
 ## PERFORMANCE
- performance has dropped a little bit against express (before was better), but this version is asyncfied and promise based so this loss is acceptable
+performance has dropped a little bit against express (before was better), but this version is asyncfied and promise based so this loss is acceptable
+
+V7.0.0 is # slower on async functions (10% slower) 68 secs
+PROMISES is better but also slower (5%)
+if removed the async keyword in /test speed is much better (59 sec)
 
 siege  http://localhost:8080/test -r100 -c100
 ** SIEGE 3.0.8
