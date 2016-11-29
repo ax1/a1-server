@@ -1,9 +1,20 @@
+# OPAMP
+
+Simple, performant, async/await web server. No need of callback style programming.
+
+All the basic features in one module, routing, static & dynamic pages, REST services and reverse-proxy.
+
+Built-in logger, customizable with other loggers without changing a lain in your code.
+
+Can install express/connect middleware or create your own plugins.
+
+
 # 1 min Tutorial
 
 Just use the default configuration (port 8080, static files at folder /public and dynamic files at folder /app )
 
 ```javascript
-let server=require('opamp')
+const server=require('opamp')
 server.start()
 
 //now open a browser and go to http://localhost:8080
@@ -12,12 +23,12 @@ server.start()
 Instead of returning a callback, this module returns a promise after  started. The parameter returned is a node [http server](https://nodejs.org/api/http.html#http_class_http_server).
 
 ```javascript
-let server=require('opamp')
+const server=require('opamp')
 server.start().then(httpServer=>{}).catch(err=>{})
 ```
 ---
 
-# 15 min Tutorial
+# 30 min Tutorial (or less)
 
 ## Configuration
 
@@ -42,7 +53,7 @@ Available options, and their default values:
 To create a configuration object just add the properties you want to change, and pass the object when calling server.start()
 
 ```javascript
-let configuration={
+const configuration={
   port:80,
   rules:{
     '/':'landing.html',
@@ -57,11 +68,11 @@ server.start(configuration)
 
 ## Routing
 
-With routing you can:
+When routing you can:
 
 - serve static resources and dynamically generated resources.
-- beautify any .html request by removing that extension in the url.
-- use plain .js files to process requests, or create REST APIs.
+- beautify any .html request by removing the extension in the url.
+- use plain .js files to process requests, or to create REST APIs.
 - reverse proxying requests to other servers you trust in.
 
 
@@ -70,25 +81,25 @@ With routing you can:
 - if the request has an extension (.html, .js, .css, .png, ...), a static file is served. This file should be located at the 'public' directory
 - if the request has not extension:
   - if name+".html" exists, that static file is served.
-  - otherwise, a js file is executed in the server, and the result is sent.
+  - otherwise, a js file is executed in the server, and the result is sent back.
 
 Examples:
 - /index.html will serve /public/index.html
 - /index will serve /public/index.html, since it exists
-- /process will execute (not serve) /app/process.js
+- /process will execute /app/process.js
 
 ### Custom Routing
 
-By adding rules to the configuration. See  ['url-pattern']() npm module.
+By adding rules to the configuration. See  ['url-pattern'](https://www.npmjs.com/package/url-pattern) npm module.
 
 ```javascript
-let rules={
-  '/':'/index.html',
-  '/governance(/\*)':'http://server1:8081',
-  '/cars(/:id)':'',
-  '/bikes(/:id)':'/other/'
+const rules={
+  '/':'/index.html', //root page
+  '/governance(/\*)':'http://server1:8081',//proxy to private server
+  '/cars(/:id)':'', //REST service
+  '/bikes(/:id)':'/other/' //another REST example
 }
-let configuration={rules:rules}
+const configuration={rules:rules}
 server.start(configuration)
 ```
 
@@ -106,14 +117,21 @@ server.start(configuration)
 ## Dynamic files
 - create a .js file at the `app` folder
 - exports the http methods you want to process (get post put delete)
--implement the exported functions as async functions. The param sent to the callback should be either a JSON object, or a simple type (number, string)
+- implement the exported functions as [async](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/async_function) functions (or normal functions if no I/O processing). The output of the function should be either a JSON object, or a simple type (number, string).
+
+> IMPORTANT: no callbacks!!!
 
 ```javascript
-module.exports={get:get}
+module.exports={options,get}
 
-function get(request,response,params,callback){
-  //callback(null, 'tested ok at '+(new Date()).toString())
-  callback(null,{a:22})
+//normal function since no acces to database, file system, etc...
+function options(request,response,params){
+  return ['GET']
+}
+
+//async keyword to avoid blocking the request
+async function get(request,response,params){
+  return database.get(params.id)
 }
 ```
 
@@ -122,25 +140,21 @@ function get(request,response,params,callback){
 
 ## Creating a REST API
 
-The same as with normal dynamic files. The only extra is to add a rule in the server configuration to be able to extract the path parameters.
+The same as with normal dynamic files. The only difference is to add a rule in the server configuration to be able to extract the 'path' parameters.
 
 Configuration:
 
 ```javascript
-let rules={
+const rules={
   '/cars(/:id)':'' /*endpoint at /app/cars.js*/,
   '/bikes(/:id)':'/inventory/motorbikes' /*endpoint at /app/inventory/motorbikes.js*/
 }
 ```
 REST service:
 
-Don't forget to surround errors with try-catch, to call the callback properly
+The params object is already filled (when the router is processed). These are REST params only, the queryString params can be taken from the request object as usual
 
-Look how the error thrown has the HTTP status code
-
-params object is already filled (when the router is processed). These are RES params only, the queryString params can be taken from the request object
-
-The callback is the function that insert the content and response headers and send the response to the client
+> Look how the error thrown has the HTTP status code
 
 ```javascript
 //file at /app/cars.js
@@ -151,39 +165,31 @@ var cars={
   '2':{name:'seat',engine:'4L'}
 }
 
-function all(request,response,params,callback){
-  if(params.id) get(request,response,params,callback)
-  else list(request,response,params,callback)
+async function all(request,response,params){
+  if(params.id) return get(request,response,params)
+  else return list(request,response,params)
 }
 
-function get(request,response,params,callback){
-  try{
-    let obj=cars[params.id]
-    if (!obj) throw(404)
-    callback(null,obj)
-  }catch (e){
-    callback(e)
-  }
+function get(request,response,params){
+  const obj=cars[params.id]
+  if (!obj) throw(404)
+  else return obj
 }
 
 function list(request,response,params,callback){
-  try{
-    callback(null,cars)
-  }catch (e){
-    callback(e)
-  }
+  return cars
 }
 ```
 
 ---
 ## Plugins
 
-A plugin is a function to be executed before a request has been processed. Plugins can be useful to check if user is authenticated, to insert headers, to log every request to the server, and so on.
+A plugin is a function to be executed **before** a request has been processed. Plugins can be useful to check if user is authenticated, to insert headers, to log every request to the server, and so on.
 
 ```
 request->is staticFile?
-            - yes->send the file
-            - no->executePlugins->execute and send the dynamic file
+  |- yes->send the file
+  |- no->executePlugins->execute and send the dynamic file
 ```
 
 Add plugins **the same way as connect or express middleware**. The plugins for these applications are also valid here (passport, morgan, cookie-parser, etc...).
@@ -195,7 +201,7 @@ For custom plugins, **don't forget** to add next()/next(err) at the end of the f
 server.use((req,res,next)=>{console.log('middleware executed');next()})
 
 //express-type plugin (middleware)
-let morgan=require('morgan')
+const morgan=require('morgan')
 server.use(morgan('combined'))
 ```
 
@@ -206,14 +212,14 @@ server.use(morgan('combined'))
 The simplest way is by using the [ws](https://www.npmjs.com/package/ws) module, already downloaded with the server.
 
 ```javascript
-let WebSocketServer = require('ws').Server
+const WebSocketServer = require('ws').Server
 
 server.start(serverConfiguration)
   .then(httpServer=>{startWebsocket(httpServer)})
   .catch(err=>{throw err})
 
   function startWebsocket(httpServer){
-    let wss = new WebSocketServer({ server:httpServer })
+    const wss = new WebSocketServer({ server:httpServer })
     wss.on('connection', ws=>{
       ws.on('message', message=>{
         ws.send('response from the server')
@@ -230,15 +236,15 @@ This way, the developer only need to use the Logger class shipped with the serve
 
 ```javascript
 //STEP-1 configure the Logger in the server
-let configuration={
+const configuration={
   Logger:require('winston')
 }
 server.start(configuration)
 
 //STEP-2 use the standard logger (it behaves as a proxy for your logger)
 //and in any js file
-let Logger=require('opamp/Logger')
-let logger=Logger.getLogger('your-logger-name')
+const Logger=require('opamp/Logger')
+const logger=Logger.getLogger('your-logger-name')
 //...
 logger.error(err)
 
