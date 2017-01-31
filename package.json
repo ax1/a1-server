@@ -1,17 +1,16 @@
 {
   "name": "opamp",
   "version": "0.0.1",
-  "description": "High-gain web server",
+  "description": "Amplify your server powers",
   "main": "lib/server.js",
-  "private": true,
   "scripts": {
-    "test": "./node_modules/.bin/mocha test/general  test/routes test/Logger --reporter spec      && ./node_modules/babel-cli/bin/babel-node.js test/plugins      && ./node_modules/babel-cli/bin/babel-node.js test/persistence "
+    "test": "./node_modules/.bin/mocha test/general  test/routes test/Logger --reporter spec && ./node_modules/babel-cli/bin/babel-node.js test/plugins      && ./node_modules/babel-cli/bin/babel-node.js test/persistence "
   },
   "keywords": [
-    "server", "http", "https", "backend", "web server", "async"
+    "server", "http", "https", "backend", "web server", "async", "await", "promise", "REST", "middleware"
   ],
   "author": "Angel Rego",
-  "license": "SEE LICENSE IN LICENSE.md",
+  "license": "MIT",
   "dependencies": {
     "bluebird": "^3.4.6",
     "http-proxy": "^1.14.0",
