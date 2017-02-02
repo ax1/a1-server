@@ -1,4 +1,4 @@
-# OPAMP
+# Opamp
 
 Amplify your server powers!
 
@@ -10,8 +10,13 @@ Built-in logger, customizable with other loggers without changing a line in your
 
 Can install express/connect middleware or create your own plugins.
 
+## Installation
 
-# 1 min Tutorial
+```bash
+npm install opamp
+```
+
+## 1 min Tutorial
 
 Just use the default configuration (port 8080, static files at folder /public and dynamic files at folder /app )
 
@@ -39,9 +44,9 @@ cd yourApp
 node --harmony index.js
 ```
 
-# 30 min Tutorial (or less)
+## 30 min Tutorial (or less)
 
-## starting the server
+### starting the server
 
 To start the app, use the `-harmony` flag to enable async/await. This is only valid for node V7 (node V8 will have async/await enabled by default, so no need of `--harmony`)
 
@@ -51,7 +56,7 @@ node --harmony index.js
 ```
 
 
-## Configuration
+### Configuration
 
 Available options, and their default values:
 
@@ -87,7 +92,7 @@ server.start(configuration)
 
 
 
-## Routing
+### Routing
 
 When routing you can:
 
@@ -97,7 +102,7 @@ When routing you can:
 - reverse proxying requests to other servers you trust in.
 
 
-### Automatic routing
+#### Automatic routing
 
 - if the request has an extension (.html, .js, .css, .png, ...), a static file is served. This file should be located at the 'public' directory
 - if the request has not extension:
@@ -109,7 +114,7 @@ Examples:
 - /index will serve /public/index.html, since it exists
 - /process will execute /app/process.js
 
-### Custom Routing
+#### Custom Routing
 
 By adding rules to the configuration. See  ['url-pattern'](https://www.npmjs.com/package/url-pattern) npm module.
 
@@ -126,7 +131,7 @@ server.start(configuration)
 
 
 
-## Static files
+### Static files
 
 - drop the resources (html,js,css) into the `public` folder
 - request the resources as usual `http://server/css/main.css`
@@ -135,7 +140,7 @@ server.start(configuration)
 
 
 
-## Dynamic files
+### Dynamic files
 - create a .js file at the `app` folder
 - exports the http methods you want to process (get post put delete)
 - implement the exported functions as [async](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/async_function) functions (or normal functions if no I/O processing). The output of the function should be either a JSON object, or a simple type (number, string).
@@ -159,7 +164,7 @@ async function get(request,response,params){
 
 
 
-## Creating a REST API
+### Creating a REST API
 
 The same as with normal dynamic files. The only difference is to add a rule in the server configuration to be able to extract the 'path' parameters.
 
@@ -203,7 +208,7 @@ function list(request,response,params,callback){
 ```
 
 
-## Plugins
+### Plugins
 
 A plugin is a function to be executed **before** a request has been processed. Plugins can be useful to check if user is authenticated, to insert headers, to log every request to the server, and so on.
 
@@ -228,7 +233,7 @@ server.use(morgan('combined'))
 
 
 
-## WebSockets
+### WebSockets
 
 The simplest way is by using the [ws](https://www.npmjs.com/package/ws) module, already downloaded with the server.
 
@@ -249,7 +254,7 @@ server.start(serverConfiguration)
   }  
 ```
 
-## Logging
+### Logging
 
 By default no logging is required (performance), but if any of the most popular logging systems (winston, bunyan, log4js, etc...) is a requirement, that logging component can be added in the configuration object.
 
