@@ -1,10 +1,12 @@
 # OPAMP
 
-Simple, performant, async/await web server. No need of callback style programming.
+Amplify your server powers!
+
+Simple async/await style web server. No need of callback style programming.
 
 All the basic features in one module, routing, static & dynamic pages, REST services and reverse-proxy.
 
-Built-in logger, customizable with other loggers without changing a lain in your code.
+Built-in logger, customizable with other loggers without changing a line in your code.
 
 Can install express/connect middleware or create your own plugins.
 
@@ -14,21 +16,40 @@ Can install express/connect middleware or create your own plugins.
 Just use the default configuration (port 8080, static files at folder /public and dynamic files at folder /app )
 
 ```javascript
+// index.js page
 const server=require('opamp')
 server.start()
 
+//start the server: >node --harmony index
 //now open a browser and go to http://localhost:8080
 ```
 
 Instead of returning a callback, this module returns a promise after  started. The parameter returned is a node [http server](https://nodejs.org/api/http.html#http_class_http_server).
 
 ```javascript
+// index.js page
 const server=require('opamp')
 server.start().then(httpServer=>{}).catch(err=>{})
 ```
----
+
+Use the --harmony flag to enable async/await natively
+
+```bash
+cd yourApp
+node --harmony index.js
+```
 
 # 30 min Tutorial (or less)
+
+## starting the server
+
+To start the app, use the `-harmony` flag to enable async/await. This is only valid for node V7 (node V8 will have async/await enabled by default, so no need of `--harmony`)
+
+```bash
+cd yourApp
+node --harmony index.js
+```
+
 
 ## Configuration
 
@@ -64,7 +85,7 @@ const configuration={
 server.start(configuration)
 ```
 
----
+
 
 ## Routing
 
@@ -103,7 +124,7 @@ const configuration={rules:rules}
 server.start(configuration)
 ```
 
----
+
 
 ## Static files
 
@@ -112,7 +133,7 @@ server.start(configuration)
 - As a nice feature, the html files can also be requested without the extension (.html)
 
 
----
+
 
 ## Dynamic files
 - create a .js file at the `app` folder
@@ -136,7 +157,7 @@ async function get(request,response,params){
 ```
 
 
----
+
 
 ## Creating a REST API
 
@@ -181,7 +202,7 @@ function list(request,response,params,callback){
 }
 ```
 
----
+
 ## Plugins
 
 A plugin is a function to be executed **before** a request has been processed. Plugins can be useful to check if user is authenticated, to insert headers, to log every request to the server, and so on.
@@ -205,7 +226,7 @@ const morgan=require('morgan')
 server.use(morgan('combined'))
 ```
 
----
+
 
 ## WebSockets
 
