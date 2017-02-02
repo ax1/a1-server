@@ -2,7 +2,7 @@
 
 Amplify your server powers!
 
-Simple async/await style web server. No need of callback style programming.
+Next-gen async/await style web server. No need of callback style programming.
 
 All the basic features in one module, routing, static & dynamic pages, REST services and reverse-proxy.
 
