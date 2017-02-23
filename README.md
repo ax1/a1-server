@@ -25,7 +25,7 @@ Just use the default configuration (port 8080, static files at folder /public an
 const server=require('opamp')
 server.start()
 
-//start the server: >node --harmony index
+//start the server: >node index
 //now open a browser and go to http://localhost:8080
 ```
 
@@ -37,11 +37,10 @@ const server=require('opamp')
 server.start().then(httpServer=>{}).catch(err=>{})
 ```
 
-Use the --harmony flag to enable async/await natively
 
 ```bash
 cd yourApp
-node --harmony index.js
+node index.js
 ```
 
 ## 30 min Tutorial (or less)
@@ -51,11 +50,9 @@ node --harmony index.js
 
 ### starting the server
 
-To start the app, use the `-harmony` flag to enable async/await. This is only valid for node V7 (node V8 will have async/await enabled by default, so no need of `--harmony`)
-
 ```bash
 cd yourApp
-node --harmony index.js
+node index.js
 ```
 
 
