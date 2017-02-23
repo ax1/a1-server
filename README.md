@@ -46,6 +46,9 @@ node --harmony index.js
 
 ## 30 min Tutorial (or less)
 
+> HINT: check demo application in the module (node_modules/opamp/demo)
+
+
 ### starting the server
 
 To start the app, use the `-harmony` flag to enable async/await. This is only valid for node V7 (node V8 will have async/await enabled by default, so no need of `--harmony`)
@@ -150,7 +153,7 @@ server.start(configuration)
 ```javascript
 module.exports={options,get}
 
-//normal function since no acces to database, file system, etc...
+//normal (synchronous) function since no access to database or file system, etc...
 function options(request,response,params){
   return ['GET']
 }
@@ -163,7 +166,6 @@ async function get(request,response,params){
 
 
 
-
 ### Creating a REST API
 
 The same as with normal dynamic files. The only difference is to add a rule in the server configuration to be able to extract the 'path' parameters.
@@ -172,10 +174,11 @@ Configuration:
 
 ```javascript
 const rules={
-  '/cars(/:id)':'' /*endpoint at /app/cars.js*/,
+  '/cars(/:id)':'', /*endpoint at /app/cars.js*/
   '/bikes(/:id)':'/inventory/motorbikes' /*endpoint at /app/inventory/motorbikes.js*/
 }
 ```
+
 REST service:
 
 The params object is already filled (when the router is processed). These are REST params only, the queryString params can be taken from the request object as usual
@@ -184,19 +187,19 @@ The params object is already filled (when the router is processed). These are RE
 
 ```javascript
 //file at /app/cars.js
-module.exports={get:all}
+module.exports={get}
 
 var cars={
   '1':{name:'volvo',engine:'6V'},
   '2':{name:'seat',engine:'4L'}
 }
 
-async function all(request,response,params){
-  if(params.id) return get(request,response,params)
+async function get(request,response,params){
+  if(params.id) return getItem(request,response,params)
   else return list(request,response,params)
 }
 
-function get(request,response,params){
+function getItem(request,response,params){
   const obj=cars[params.id]
   if (!obj) throw(404)
   else return obj
@@ -213,7 +216,7 @@ function list(request,response,params,callback){
 A plugin is a function to be executed **before** a request has been processed. Plugins can be useful to check if user is authenticated, to insert headers, to log every request to the server, and so on.
 
 ```
-request->is staticFile?
+request->is static file?
   |- yes->send the file
   |- no->executePlugins->execute and send the dynamic file
 ```
@@ -256,9 +259,9 @@ server.start(serverConfiguration)
 
 ### Logging
 
-By default no logging is required (performance), but if any of the most popular logging systems (winston, bunyan, log4js, etc...) is a requirement, that logging component can be added in the configuration object.
+By default no logging module is required (for better performance), but if any of the most popular logging systems (winston, bunyan, log4js, etc...) is a requirement, that logging component can be added in the configuration object.
 
-This way, the developer only need to use the Logger class shipped with the server. If in the future, the real logger is replaced by a new one, no code changes are required, just change the logger in the configuration object.
+This way, the developer only need to use the Logger class shipped with the server. If in the future, the real logger is replaced by a new one, no code changes are required, just set the new logger you want to use in the configuration object.
 
 ```javascript
 //STEP-1 configure the Logger in the server
@@ -273,5 +276,4 @@ const Logger=require('opamp/Logger')
 const logger=Logger.getLogger('your-logger-name')
 //...
 logger.error(err)
-
 ```
