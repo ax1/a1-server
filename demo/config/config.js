@@ -13,10 +13,10 @@
 //   }
 // }
 
+let Logger = require('../../lib/Logger')
+Logger.configure(Logger.DummyLogger) //no output
 
-var Logger = require('../../lib/Logger')
-
-var serverConfiguration = {
+const serverConfiguration = {
   port: 8080,
   rules: {
     '/cars(/:id)': '/cars',
