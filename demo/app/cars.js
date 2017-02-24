@@ -2,9 +2,9 @@
  * REST example
  */
 
- const db=[
-   {"name":"toyota","engine":"2222","_id":"doKnnvbRCpt7fQaC"},
-   {"name":"toyota","engine":"1111","_id":"tibP9rhyyu3dzTtX"}
+const db=[
+  {name:"toyota",engine:"2222",id:"doKnnvbRCpt7fQaC"},
+  {name:"toyota",engine:"1111",id:"tibP9rhyyu3dzTtX"}
 ]
 
 module.exports={
@@ -12,32 +12,38 @@ module.exports={
 }
 
 async function get(request,response,params){
-  if (params && Object.keys(params).length>0) return  db.find(params.id)
+  if (params && Object.keys(params).length>0) return  db.find(item=>item.id==params.id)
   else return db
 }
 
 async function post(request,response,params){
-  const data=request.body
+  const data=JSON.parse(request.body)
   db.push(data)
   response.statusCode=201
   let location=request.url
-  if (location.endsWith('/')) location=location+data._id
-  else location=location+'/'+data._id
+  if (location.endsWith('/')) location=location+data.id
+  else location=location+'/'+data.id
   response.setHeader('Location',location)
-  return {'_id':data._id}
+  return {'id':data.id}
 }
 
 async function put(request,response,params){
-  const found= db.find((el)=>{
-    if(el._id===params.id){el=request.body;return true}
-    else return false
-  })
-  if (!found) throw(404)
-  response.statusCode=204
-  return 1
+  const index= db.findIndex(el=>el.id===params.id)
+  if (index>-1){
+    db.splice(index,1,JSON.parse(request.body))
+    response.statusCode=204
+  }else{
+    throw(404)
+  }
 }
 
 async function remove(request,response,params){
-  if(params && Object.keys(params).length)  return db.remove(params.id).length
-  else return db.splice(0).lenght
+  if(params && Object.keys(params).length){
+    const index=db.findIndex(item=>item.id==params.id)
+    if (index>-1) {
+      db.splice(index,1)
+      return 1
+    }else return 0
+  }
+  else throw(404)
 }

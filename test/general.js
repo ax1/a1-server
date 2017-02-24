@@ -1,7 +1,7 @@
 /* eslint-env node, mocha */
 const chai = require('chai')
 const chaiHttp = require('chai-http')
-const should=chai.should() 
+const should=chai.should()
 //const expect=chai.expect
 const host='http://localhost:8080'
 chai.use(chaiHttp)
@@ -38,18 +38,18 @@ describe('requests',()=>{
   })
   let id_test=null
   it('rest post',(done)=>{
-    chai.request(host).post(service).send({name:'mocha',content:'this was a post'}).end((err,res)=>{
+    chai.request(host).post(service).send({name:"lada",engine:"2.0",id:"AEIOU"}).end((err,res)=>{
       res.should.have.status(201)
       res.should.have.header('Location')
       res.body.should.be.a('object')
-      let _id=res.body._id
-      _id.should.be.a('string')
-      id_test=_id
+      let id=res.body.id
+      id.should.be.a('string')
+      id_test=id
       done()
     })
   })
   it('rest put',(done)=>{
-    chai.request(host).put(service+'/'+id_test).send({name:'mocha',content:'this was a put'}).end((err,res)=>{
+    chai.request(host).put(service+'/'+id_test).send({name:"lada",engine:"4.0",id:"AEIOU"}).end((err,res)=>{
       res.should.have.status(204)
       done()
     })

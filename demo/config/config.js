@@ -14,7 +14,7 @@
 // }
 
 let Logger = require('../../lib/Logger')
-Logger.configure(Logger.DummyLogger) //no output
+//Logger.configure(Logger.DummyLogger) //no output
 
 const serverConfiguration = {
   port: 8080,
