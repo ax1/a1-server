@@ -7,29 +7,34 @@
 */
 
 /* eslint-env node, mocha */
-const chai=require('chai')
-const should=chai.should()
-const Logger=require('../lib/Logger')
-const router=require('../lib/routes')
+const chai = require('chai')
+chai.should()
+const router=require('../lib/router')
 
-function test(){
+describe('routing',()=>{
   let rules={
     '/':'/index.html',
     '/governance(/*)':'http://google.com',
     '/cars(/:id)':'',
     '/bikes(/:id)':'/other/'
   }
-  let examples=[
-    '/',
-    '/governance',
-    '/governance/car/test/?users.html',
-    '/bikes/33'
-  ]
   router.load(rules)
-  for (let example of examples) {
-    router.match(example)
-    console.log(router.resolve(example).path)
-  }
-}
-
-test()
+  it('index',()=>{
+    const res=router.resolve('/')
+    res.path.should.equal('/index.html')
+  })
+  it('path without params',()=>{
+    const res=router.resolve('/governance')
+    res.path.should.equal('http://google.com')
+  })
+  it('path with params',()=>{
+    const res=router.resolve('/governance/car/test/?users.html')
+    res.path.should.equal('http://google.com/car/test/?users.html')
+    res.params._.should.equal('car/test/?users.html')
+  })
+  it('REST path',()=>{
+    const res=router.resolve('/bikes/33')
+    res.path.should.equal('/other/')
+    res.params.id.should.equal('33')
+  })
+})

@@ -4,7 +4,7 @@
   "description": "Amplify your server powers",
   "main": "lib/server.js",
   "scripts": {
-    "test": "./node_modules/.bin/mocha test/general test/routes test/Logger --reporter spec && node test/plugins"
+    "test": "./node_modules/.bin/mocha test/general test/router test/Logger --reporter spec && node test/plugins"
   },
   "keywords": [
     "server",
