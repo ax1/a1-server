@@ -12,7 +12,7 @@ describe('built-in logger',()=>{
     logger.should.have.property('info')
   })
   it('should display info log',()=>{
-    logger.info('     this is a info message')
+    logger.info('     this is one info message')
   })
 })
 
@@ -24,6 +24,6 @@ describe('winston logger',()=>{
     logger.should.have.property('info')
   })
   it('should display info log',()=>{
-    logger.info('     this is a info message')
+    logger.info('     this is the same info message')
   })
 })

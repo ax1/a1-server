@@ -241,8 +241,8 @@ The simplest way is by using the [ws](https://www.npmjs.com/package/ws) module, 
 const WebSocketServer = require('ws').Server
 
 server.start(serverConfiguration)
-  .then(httpServer=>{startWebsocket(httpServer)})
-  .catch(err=>{throw err})
+  .then(httpServer=>startWebsocket(httpServer))
+  .catch(err=>throw err)
 
   function startWebsocket(httpServer){
     const wss = new WebSocketServer({ server:httpServer })

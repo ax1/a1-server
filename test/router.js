@@ -1,11 +1,3 @@
-/*
-████████  ██████  ██████   ██████
-   ██    ██    ██ ██   ██ ██    ██
-   ██    ██    ██ ██   ██ ██    ██
-   ██    ██    ██ ██   ██ ██    ██
-   ██     ██████  ██████   ██████
-*/
-
 /* eslint-env node, mocha */
 const chai = require('chai')
 chai.should()
@@ -23,16 +15,16 @@ describe('routing',()=>{
     const res=router.resolve('/')
     res.path.should.equal('/index.html')
   })
-  it('path without params',()=>{
+  it('url without params',()=>{
     const res=router.resolve('/governance')
     res.path.should.equal('http://google.com')
   })
-  it('path with params',()=>{
+  it('url with params',()=>{
     const res=router.resolve('/governance/car/test/?users.html')
     res.path.should.equal('http://google.com/car/test/?users.html')
     res.params._.should.equal('car/test/?users.html')
   })
-  it('REST path',()=>{
+  it('REST url',()=>{
     const res=router.resolve('/bikes/33')
     res.path.should.equal('/other/')
     res.params.id.should.equal('33')
