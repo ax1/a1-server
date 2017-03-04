@@ -1,6 +1,6 @@
 {
   "name": "opamp",
-  "version": "1.0.3",
+  "version": "1.1.0",
   "description": "Amplify your server powers",
   "main": "lib/server.js",
   "scripts": {
