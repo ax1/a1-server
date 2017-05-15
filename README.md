@@ -22,25 +22,21 @@ Just use the default configuration (port 8080, static files at folder /public an
 
 ```javascript
 // index.js page
-const server=require('opamp')
+const server = require('opamp')
 server.start()
 
-//start the server: >node index
-//now open a browser and go to http://localhost:8080
+// in terminal: start the server:
+//    > cd .../yourApp  
+//    > node index
+// now open a browser and go to http://localhost:8080
 ```
 
-Instead of returning a callback, this module returns a promise after  started. The parameter returned is a node [http server](https://nodejs.org/api/http.html#http_class_http_server).
+Instead of returning a callback, this module returns a promise after started. The parameter returned is a node [http server](https://nodejs.org/api/http.html#http_class_http_server). Then you could use the node httpServer object to , for instance, attach a web socket.
 
 ```javascript
 // index.js page
-const server=require('opamp')
-server.start().then(httpServer=>{}).catch(err=>{})
-```
-
-
-```bash
-cd yourApp
-node index.js
+const server = require('opamp')
+server.start().then(httpServer => {}).catch(err => {})
 ```
 
 ## 30 min Tutorial (or less)
@@ -50,7 +46,7 @@ node index.js
 
 ### starting the server
 
-```bash
+```sh
 cd yourApp
 node index.js
 ```
@@ -58,37 +54,39 @@ node index.js
 
 ### Configuration
 
-Available options, and their default values:
-
-```javascript
-{
-  ssl:{
-    /*key: fs.readFileSync('~/webapp/server.key'),
-    cert: fs.readFileSync('~/webapp/server.crt')
-    */
-  },
-  serverName:'',
-  welcomePage:'index.html',
-  port:'8080',
-  staticFolder:'public',
-  dynamicFolder:'app',
-  rules:{'/':'index.html'}
-  Logger:Logger
-}
-```
 To create a configuration object just add the properties you want to change, and pass the object when calling server.start()
 
 ```javascript
-const configuration={
-  port:80,
-  rules:{
-    '/':'landing.html',
-    '/intranet/*':'/private/'
+const configuration = {
+  port: 80,
+  rules: {
+    '/': 'landing.html',
+    '/intranet/*': '/private/'
   }
 }
 
 server.start(configuration)
 ```
+
+Available options, and their default values:
+
+```javascript
+{
+  ssl: {
+    /*key: fs.readFileSync('~/webapp/server.key'),
+    cert: fs.readFileSync('~/webapp/server.crt')
+    */
+  },
+  serverName: '',
+  welcomePage: 'index.html',
+  port: '8080',
+  staticFolder: 'public',
+  dynamicFolder: 'app',
+  rules: { '/': 'index.html' }
+  Logger: Logger
+}
+```
+
 
 
 
@@ -106,7 +104,7 @@ When routing you can:
 
 - if the request has an extension (.html, .js, .css, .png, ...), a static file is served. This file should be located at the 'public' directory
 - if the request has not extension:
-  - if name+".html" exists, that static file is served.
+  - if name + ".html" exists, that static file is served.
   - otherwise, a js file is executed in the server, and the result is sent back.
 
 Examples:
@@ -119,13 +117,13 @@ Examples:
 By adding rules to the configuration. See  ['url-pattern'](https://www.npmjs.com/package/url-pattern) npm module.
 
 ```javascript
-const rules={
-  '/':'/index.html', //root page
-  '/governance(/\*)':'http://server1:8081',//proxy to private server
-  '/cars(/:id)':'', //REST service
-  '/bikes(/:id)':'/other/' //another REST example
+const rules = {
+  '/': '/index.html', // root page
+  '/governance(/\*)': 'http://server1:8081', // proxy to private server
+  '/cars(/:id)': '', // REST service
+  '/bikes(/:id)': '/other/' // another REST example
 }
-const configuration={rules:rules}
+const configuration = { rules: rules }
 server.start(configuration)
 ```
 
@@ -133,7 +131,7 @@ server.start(configuration)
 
 ### Static files
 
-- drop the resources (html,js,css) into the `public` folder
+- drop the resources (html, js, css) into the `public` folder
 - request the resources as usual `http://server/css/main.css`
 - As a nice feature, the html files can also be requested without the extension (.html)
 
@@ -143,25 +141,23 @@ server.start(configuration)
 ### Dynamic files
 - create a .js file at the `app` folder
 - exports the http methods you want to process (get post put delete)
-- implement the exported functions as [async](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/async_function) functions (or normal functions if no I/O processing). The output of the function should be either a JSON object, or a simple type (number, string).
+- implement the exported functions as [promises](https://developer.mozilla.org/en/docs/Web/JavaScript/Reference/Global_Objects/Promise) or  [async](https://developer.mozilla.org/en/docs/Web/JavaScript/Reference/Statements/async_function) functions (or normal functions if no I/O processing). The output of the function should be either a JSON object, or a simple type (number, string).
 
 > IMPORTANT: no callbacks!!!
 
 ```javascript
-module.exports={options,get}
+module.exports = {options,get}
 
-//normal (synchronous) function since no access to database or file system, etc...
-function options(request,response,params){
+// normal (synchronous) function since no blocking code
+function options(request, response, params) {
   return ['GET']
 }
 
-//async keyword to avoid blocking the request
-async function get(request,response,params){
+// async keyword to avoid blocking
+async function get(request, response, params) {
   return database.get(params.id)
 }
 ```
-
-
 
 ### Creating a REST API
 
@@ -170,9 +166,9 @@ The same as with normal dynamic files. The only difference is to add a rule in t
 Configuration:
 
 ```javascript
-const rules={
-  '/cars(/:id)':'', /*endpoint at /app/cars.js*/
-  '/bikes(/:id)':'/inventory/motorbikes' /*endpoint at /app/inventory/motorbikes.js*/
+const rules = {
+  '/cars(/:id)': '', /* /app/cars.js*/
+  '/bikes(/:id)': '/inventory/motorbikes' /* /app/inventory/motorbikes.js*/
 }
 ```
 
@@ -183,27 +179,31 @@ The params object is already filled (when the router is processed). These are RE
 > Look how the error thrown has the HTTP status code
 
 ```javascript
-//file at /app/cars.js
-module.exports={get}
+// file at /app/cars.js
 
-var cars={
-  '1':{name:'volvo',engine:'6V'},
-  '2':{name:'seat',engine:'4L'}
+module.exports = { get }
+
+// emulate a database
+var cars = {
+  '1': { name: 'volvo', engine: '6V' },
+  '2': { name: 'seat', engine: '4L' }
 }
 
-async function get(request,response,params){
-  if(params.id) return getItem(request,response,params)
-  else return list(request,response,params)
+// in this case (no I/O code) async is not needed
+// but in real world cases the methods should be asynchronous
+async function get(request, response, params) {
+  if (params.id) return await getItem(request, response, params)
+  else return await list(request, response, params)
 }
 
-function getItem(request,response,params){
-  const obj=cars[params.id]
+async function getItem(request, response, params) {
+  const obj = cars[params.id]
   if (!obj) throw(404)
   else return obj
 }
 
-function list(request,response,params,callback){
-  return cars
+async function list(request, response, params) {
+  return Object.keys(cars)
 }
 ```
 
@@ -213,22 +213,22 @@ function list(request,response,params,callback){
 A plugin is a function to be executed **before** a request has been processed. Plugins can be useful to check if user is authenticated, to insert headers, to log every request to the server, and so on.
 
 ```
-request->is static file?
-  |- yes->send the file
-  |- no->executePlugins->execute and send the dynamic file
+request -> is static file?
+  |- yes -> send the file
+  |- no -> executePlugins -> execute and send the dynamic file
 ```
 
-Add plugins **the same way as connect or express middleware**. The plugins for these applications are also valid here (passport, morgan, cookie-parser, etc...).
+Add plugins **the same way as connect or express middleware**. The plugins for these applications are **also valid** here (passport, morgan, cookie-parser, etc...).
 
-For custom plugins, **don't forget** to add next()/next(err) at the end of the function.
+For custom plugins, **don't forget** to add next() or next(err) at the end of the function.
 
 ```javascript
-//custom plugin
-server.use((req,res,next)=>{console.log('middleware executed');next()})
-
 //express-type plugin (middleware)
-const morgan=require('morgan')
+const morgan = require('morgan')
 server.use(morgan('combined'))
+
+//custom plugin
+server.use( (req, res, next) => { console.log('middleware executed'); next() })
 ```
 
 
@@ -241,13 +241,13 @@ The simplest way is by using the [ws](https://www.npmjs.com/package/ws) module, 
 const WebSocketServer = require('ws').Server
 
 server.start(serverConfiguration)
-  .then(httpServer=>startWebsocket(httpServer))
-  .catch(err=>throw err)
+  .then(httpServer => startWebsocket(httpServer))
+  .catch(err => throw err)
 
-  function startWebsocket(httpServer){
-    const wss = new WebSocketServer({ server:httpServer })
-    wss.on('connection', ws=>{
-      ws.on('message', message=>{
+  function startWebsocket(httpServer) {
+    const wss = new WebSocketServer({ server: httpServer })
+    wss.on('connection', ws => {
+      ws.on('message', message => {
         ws.send('response from the server')
       })
     })
@@ -261,16 +261,16 @@ By default no logging module is required (for better performance), but if any of
 This way, the developer only need to use the Logger class shipped with the server. If in the future, the real logger is replaced by a new one, no code changes are required, just set the new logger you want to use in the configuration object.
 
 ```javascript
-//STEP-1 configure the Logger in the server
-const configuration={
-  Logger:require('winston')
+// STEP-1 configure the Logger to use when starting the server
+const configuration = {
+  Logger: require('winston')
 }
 server.start(configuration)
 
-//STEP-2 use the standard logger (it behaves as a proxy for your logger)
-//and in any js file
-const Logger=require('opamp/Logger')
-const logger=Logger.getLogger('your-logger-name')
-//...
-logger.error(err)
+// STEP-2 use the standard logger (it behaves as a proxy for the real logger)
+// in the js files
+const Logger = require('opamp/Logger')
+const logger = Logger.getLogger('your-logger-name')
+// ...
+logger.error(err) //logged by using winston
 ```
