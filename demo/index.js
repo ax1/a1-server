@@ -1,7 +1,7 @@
-let server=require("../lib/server")
+let server = require("../lib/server")
 //let server=require("../lib/server")
 //let morgan=require('morgan')
-let configuration=require("./config/config").configuration
+let configuration = require("./config/config").configuration
 //let fs = require("fs")
 let WebSocketServer = require('ws').Server
 //require('../lib/persistence').start(__dirname+ '/database')
@@ -26,17 +26,21 @@ let WebSocketServer = require('ws').Server
  * Start an HTTP server
  */
 server.start(configuration)
-  .then(httpServer=>startWebsocket(httpServer))
-  .catch(err=>{throw err})
+  .then(httpServer => startWebsocket(httpServer))
+  .catch(err => {
+    throw err
+  })
 
 /**
  * Start the websocket server
  */
-function startWebsocket(httpServer){
-  let wss = new WebSocketServer({ server:httpServer })
-  wss.on('connection', ws=>{
-    ws.on('message', message=>{
-      ws.send('you said: '+message)
+function startWebsocket(httpServer) {
+  let wss = new WebSocketServer({
+    server: httpServer
+  })
+  wss.on('connection', ws => {
+    ws.on('message', message => {
+      ws.send('you said: ' + message)
       ws.send('and I am saying to you: shut the fuck up!!!')
     })
   })

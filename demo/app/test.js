@@ -1,5 +1,7 @@
-module.exports={get}
+module.exports = {
+  get
+}
 
-function get(request,response,params){
+function get(request, response, params) {
   return 'hola caracola'
 }

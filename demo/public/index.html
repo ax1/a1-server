@@ -9,13 +9,13 @@
     <div id="messages"></div>
     <script>
       var ws = new WebSocket('wss://localhost:8443');
-      setInterval(()=>  ws.send('hola don pepito'),5000)
+      setInterval(() =>  ws.send('hola don pepito'),5000)
       ws.onopen=function(data, flags) {ws.send('start') }
-      ws.onmessage=function(data, flags) {
-        var el=document.createElement('div')
-        el.innerHTML=(new Date()).toString()+" "+data.data
-        var container=document.getElementById("messages")
-        container.insertBefore(el,container.firstChild)
+      ws.onmessage = function(data, flags) {
+        var el = document.createElement('div')
+        el.innerHTML = (new Date()).toString()+" "+data.data
+        var container = document.getElementById("messages")
+        container.insertBefore(el, container.firstChild)
       }
     </script>
   </body>

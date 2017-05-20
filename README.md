@@ -31,7 +31,7 @@ server.start()
 // now open a browser and go to http://localhost:8080
 ```
 
-Instead of returning a callback, this module returns a promise after started. The parameter returned is a node [http server](https://nodejs.org/api/http.html#http_class_http_server). Then you could use the node httpServer object to , for instance, attach a web socket.
+Instead of returning a callback, this module returns a promise after started. The parameter returned is a node [http server](https://nodejs.org/api/http.html#http_class_http_server). Then you could use the node httpServer object to, for instance, attach a web socket.
 
 ```javascript
 // index.js page
