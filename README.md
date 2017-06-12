@@ -223,11 +223,11 @@ Add plugins **the same way as connect or express middleware**. The plugins for t
 For custom plugins, **don't forget** to add next() or next(err) at the end of the function.
 
 ```javascript
-//express-type plugin (middleware)
+// express-type plugin (middleware)
 const morgan = require('morgan')
 server.use(morgan('combined'))
 
-//custom plugin
+// custom plugin
 server.use( (req, res, next) => { console.log('middleware executed'); next() })
 ```
 
@@ -272,5 +272,5 @@ server.start(configuration)
 const Logger = require('opamp/Logger')
 const logger = Logger.getLogger('your-logger-name')
 // ...
-logger.error(err) //logged by using winston
+logger.error(err) // logged by using winston
 ```
