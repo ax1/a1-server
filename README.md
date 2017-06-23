@@ -123,7 +123,7 @@ const rules = {
   '/cars(/:id)': '', // REST service
   '/bikes(/:id)': '/other/' // another REST example
 }
-const configuration = { rules: rules }
+const configuration = { rules }
 server.start(configuration)
 ```
 
@@ -141,12 +141,12 @@ server.start(configuration)
 ### Dynamic files
 - create a .js file at the `app` folder
 - exports the http methods you want to process (get post put delete)
-- implement the exported functions as [promises](https://developer.mozilla.org/en/docs/Web/JavaScript/Reference/Global_Objects/Promise) or  [async](https://developer.mozilla.org/en/docs/Web/JavaScript/Reference/Statements/async_function) functions (or normal functions if no I/O processing). The output of the function should be either a JSON object, or a simple type (number, string).
+- implement the exported functions as [promises](https://developer.mozilla.org/en/docs/Web/JavaScript/Reference/Global_Objects/Promise) or  [async](https://developer.mozilla.org/en/docs/Web/JavaScript/Reference/Statements/async_function) functions (or normal functions if no I/O processing). The output of the function should be either a JSON object, a simple type (number, string), or a [stream](https://nodejs.org/api/stream.html).
 
 > IMPORTANT: no callbacks!!!
 
 ```javascript
-module.exports = {options,get}
+module.exports = { options, get }
 
 // normal (synchronous) function since no blocking code
 function options(request, response, params) {

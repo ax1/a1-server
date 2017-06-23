@@ -69,3 +69,19 @@ describe('requests', () => {
     })
   })
 })
+
+//----------------------responses as streams----------------------------------
+describe('streams', () => {
+  it('should return all static files as streams', (done) => {
+    chai.request(host).get('/index.html').end((err, res) => {
+      res.should.have.status(200)
+      done()
+    })
+  })
+  it('should return certain dynamic files as streams', (done) => {
+    chai.request(host).get('/test-stream').end((err, res) => {
+      res.should.have.status(200)
+      done()
+    })
+  })
+})
