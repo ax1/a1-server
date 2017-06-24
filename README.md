@@ -2,13 +2,13 @@
 
 Amplify your server powers!
 
-Next-gen async/await style web server. No need of callback style programming.
+Next-gen **async/await** style web server. No need of callback style programming.
 
 All the basic features in one module, routing, static & dynamic pages, REST services and reverse-proxy.
 
-Built-in logger, customizable with other loggers without changing a line in your code.
+Built-in logger, or use preferred loggers at any time with no code refactoring.
 
-Can install express/connect middleware or create your own plugins.
+Install express/connect middleware or create your own plugins.
 
 ## Installation
 
@@ -228,7 +228,10 @@ const morgan = require('morgan')
 server.use(morgan('combined'))
 
 // custom plugin
-server.use( (req, res, next) => { console.log('middleware executed'); next() })
+server.use( (req, res, next) => {
+  console.log('middleware executed')
+  next()
+})
 ```
 
 
@@ -273,4 +276,11 @@ const Logger = require('opamp/Logger')
 const logger = Logger.getLogger('your-logger-name')
 // ...
 logger.error(err) // logged by using winston
+logger.info('hi')
+```
+In development time, the default logger is attached to the console, so use logging instead of console.* methods from the beginning. If you prefer to have no logger output in development mode (for instance, to test requests performance), just configure the Logger to NoOutputLogger.
+
+```javascript
+let Logger = require('opamp/Logger')
+Logger.configure(Logger.NoOutputLogger) //no output
 ```

@@ -13,7 +13,7 @@
 //   }
 // }
 
-let Logger = require('../../lib/Logger')
+const Logger = require('../../lib/Logger')
 Logger.configure(Logger.DummyLogger) //no output
 
 const serverConfiguration = {
