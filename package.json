@@ -28,9 +28,9 @@
     "url": "https://github.com/angelrego/opamp/issues"
   },
   "dependencies": {
-    "http-proxy": "^1.14.0",
-    "url-pattern": "^1.0.1",
-    "ws": "^1.1.1"
+    "http-proxy": "^1.16.2",
+    "url-pattern": "^1.0.3",
+    "ws": "^3.0.0"
   },
   "devDependencies": {
     "chai": "^3.5.0",
