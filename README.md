@@ -82,7 +82,7 @@ Available options, and their default values:
   port: '8080',
   staticFolder: 'public',
   dynamicFolder: 'app',
-  rules: { '/': 'index.html' }
+  rules: { '/': 'index.html' },
   Logger: Logger
 }
 ```
