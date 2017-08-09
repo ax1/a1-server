@@ -1,5 +1,5 @@
 {
-  "name": "opamp",
+  "name": "a1server",
   "version": "1.2.2",
   "description": "Amplify your server powers",
   "main": "lib/server.js",
@@ -22,10 +22,10 @@
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "https://github.com/angelrego/opamp.git"
+    "url": "https://github.com/ax1/a1server.git"
   },
   "bugs": {
-    "url": "https://github.com/angelrego/opamp/issues"
+    "url": "https://github.com/ax1/a1server/issues"
   },
   "dependencies": {
     "http-proxy": "^1.16.2",

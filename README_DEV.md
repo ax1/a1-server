@@ -13,7 +13,7 @@ npm install babel-plugin-transform-async-to-generator --save-dev
 }
 
 ### Execute
-cd opamp/demo
+cd a1server/demo
 node index.js
 
 
