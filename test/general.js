@@ -20,16 +20,37 @@ describe('test environment', () => {
   })
 })
 
-
-//----------------------static dynamic and rest requests---------
-describe('requests', () => {
-  var service = '/cars'
-  it('index page', (done) => {
+//----------------------index.html when default paths------------
+describe('index.html pages', () => {
+  it('/-> index.html', (done) => {
+    chai.request(host).get('/').end((err, res) => {
+      res.should.have.status(200)
+      done()
+    })
+  })
+  it('/index -> index.html', (done) => {
     chai.request(host).get('/index').end((err, res) => {
       res.should.have.status(200)
       done()
     })
   })
+  it('/details -> /details/index.html', (done) => {
+    chai.request(host).get('/details').end((err, res) => {
+      res.should.have.status(200)
+      done()
+    })
+  })
+  it('/details/index -> /details/index.html', (done) => {
+    chai.request(host).get('/details/index').end((err, res) => {
+      res.should.have.status(200)
+      done()
+    })
+  })
+})
+
+//----------------------static dynamic and rest requests---------
+describe('requests', () => {
+  var service = '/cars'
   it('rest get', (done) => {
     chai.request(host).get(service).end((err, res) => {
       res.should.have.status(200)

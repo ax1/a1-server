@@ -1,4 +1,4 @@
-# Opamp
+# a1server
 
 This project has been renamed to [a1server] (https://www.npmjs.com/package/a1server)
 
