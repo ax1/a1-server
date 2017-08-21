@@ -1,5 +1,5 @@
 ### Execute
-cd a1server/demo
+cd a1-server/demo
 node index.js
 
 

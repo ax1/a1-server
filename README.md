@@ -1,4 +1,4 @@
-# a1server
+# a1-server
 
 Amplify your server powers!
 
@@ -13,7 +13,7 @@ Install express/connect middleware or create your own plugins.
 ## Installation
 
 ```bash
-npm install a1server
+npm install a1-server
 ```
 
 ## 1 min Tutorial
@@ -22,7 +22,7 @@ Just use the default configuration (port 8080, static files at folder /public an
 
 ```javascript
 // index.js page
-const server = require('a1server')
+const server = require('a1-server')
 server.start()
 
 // in terminal: start the server:
@@ -35,13 +35,13 @@ Instead of returning a callback, this module returns a promise after started. Th
 
 ```javascript
 // index.js page
-const server = require('a1server')
+const server = require('a1-server')
 server.start().then(httpServer => {}).catch(err => {})
 ```
 
 ## 30 min Tutorial (or less)
 
-> HINT: check demo application in the module (node_modules/a1server/demo)
+> HINT: check demo application in the module (node_modules/a1-server/demo)
 
 
 ### starting the server
@@ -272,7 +272,7 @@ server.start(configuration)
 
 // STEP-2 use the standard logger (it behaves as a proxy for the real logger)
 // in the js files
-const Logger = require('a1server/Logger')
+const Logger = require('a1-server/Logger')
 const logger = Logger.getLogger('your-logger-name')
 // ...
 logger.error(err) // logged by using winston
@@ -281,6 +281,6 @@ logger.info('hi')
 In development time, the default logger is attached to the console, so use logging instead of console.* methods from the beginning. If you prefer to have no logger output in development mode (for instance, to test requests performance), just configure the Logger to NoOutputLogger.
 
 ```javascript
-let Logger = require('a1server/Logger')
+let Logger = require('a1-server/Logger')
 Logger.configure(Logger.NoOutputLogger) //no output
 ```
