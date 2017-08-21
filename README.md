@@ -284,3 +284,43 @@ In development time, the default logger is attached to the console, so use loggi
 let Logger = require('a1-server/Logger')
 Logger.configure(Logger.NoOutputLogger) //no output
 ```
+
+## Tips on development
+
+- to reload automatically when files are saved, use nodemon or [pm2](https://www.npmjs.com/package/pm2) (`pm2 start app.js --watch`)
+
+## Tips on production
+
+To get the maximum performance, there are several useful techniques:
+- to use all CPU cores, use the cluster API or [pm2](https://www.npmjs.com/package/pm2) (`pm2 start app.js -i 0`)
+- to serve static files, either put the /public folder directly in a nginx location or keep the /public folder into the application and add a rule in the nginx (`location ~* \.(css|js|gif|jpe?g|png)$ { expires 168h; }`)
+- to hide servers and/or ports, use nginx as reverse-proxy (it's faster than the built-in proxy)
+- to scale horizontally, use nginx as a load balancer
+
+Example of nginx config:
+```nginx
+upstream project {
+    #ip_hash to keep users talking to the same server.
+    ip_hash ;
+    #the multiple servers, each running pm2
+    server 22.22.22.2:3000;
+    server 22.22.22.3:3000;
+    server 22.22.22.5:3000;
+}
+
+server {
+    listen 80;
+
+    location / {
+        proxy_pass http://project;
+    }
+    location ~* \.(css|js|gif|jpe?g|png)$ {
+        expires 168h;
+    }
+}
+```
+More info at:
+
+https://www.reddit.com/r/node/comments/6uwbh2/ive_used_pm2_to_scale_my_app_across_cores_on_a/
+
+https://www.nginx.com/blog/5-performance-tips-for-node-js-applications/
