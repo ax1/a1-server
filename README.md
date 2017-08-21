@@ -1,7 +1,5 @@
 # a1-server
 
-This project has been renamed to [a1server] (https://www.npmjs.com/package/a1server)
-
 Next-gen **async/await** style web server. No need of callback style programming.
 
 All the basic features in one module, routing, static & dynamic pages, REST services and reverse-proxy.
