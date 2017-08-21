@@ -8,8 +8,8 @@
 //     '/rest/*':'/services/*'
 //   },
 //   ssl:{
-//     key: fs.readFileSync('/etc/x/projects/a1server/demo/config/server.key'),
-//     cert: fs.readFileSync('/etc/x/projects/a1server/demo/config/server.crt')
+//     key: fs.readFileSync('server.key'),
+//     cert: fs.readFileSync('server.crt')
 //   }
 // }
 
