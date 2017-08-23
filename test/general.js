@@ -91,6 +91,23 @@ describe('requests', () => {
   })
 })
 
+//----------------------test a POST-------------------------------------------
+describe('POST method', () => {
+  it('should handle POST multipart/form-data', done => {
+    chai.request(host).post('/test').field('name', 'Eddie').end((err, res) => {
+      res.text.includes('Eddie').should.be.ok
+      done()
+    })
+  })
+  it('should handle POST text/plain', done => {
+    const text = '{"name", "Eddie"}'
+    chai.request(host).post('/test').send(text).end((err, res) => {
+      res.text.should.be.equal(text)
+      done()
+    })
+  })
+})
+
 //----------------------responses as streams----------------------------------
 describe('streams', () => {
   it('should return all static files as streams', (done) => {
