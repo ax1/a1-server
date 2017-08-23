@@ -259,7 +259,7 @@ server.start(serverConfiguration)
 
 By default no logging module is required (for better performance), but if any of the most popular logging systems (winston, bunyan, log4js, etc...) is a requirement, that logging component can be added in the configuration object.
 
-This way, the developer only need to use the Logger class shipped with the server. If in the future, the real logger is replaced by a new one, no code changes are required, just set the new logger you want to use in the configuration object.
+This way, a developer only needs to use the Logger class shipped with the server. If in the future, the real logger is replaced by a new one, no code changes are required, just set the new logger you want to use in the configuration object.
 
 ```javascript
 // STEP-1 configure the Logger to use when starting the server
