@@ -86,8 +86,6 @@ Available options, and their default values:
 ```
 
 
-
-
 ### Routing
 
 When routing you can:
