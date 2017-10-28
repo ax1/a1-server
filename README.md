@@ -205,7 +205,20 @@ async function list(request, response, params) {
   return Object.keys(cars)
 }
 ```
+### POST, PUT, DELETE & PATCH methods
 
+Unlike GET method, these ones can contain data (payload) in the request.
+
+The built-in feature for these methods is to get the **payload and add it to the `request.body` parameter**. The body type depends on the `Content-Type` header:
+- `Content-Type=text/plain` : the body is a String
+- `Content-Type=application/json`: the body is an Object.
+- Default : the body is a Sstring (example: if urlencoded header, body in querystring syntax:a1=v1&a2=v2, and so on), the developer should use a custom parsing strategy.
+
+This allows *fastest* processing of the request, instead of parsing body data for unwanted requests.
+
+You can disable the built-in and use third party plugins ( [body-parser](https://www.npmjs.com/package/body-parser) and others) for parsing the body. Just set `externalBodyParser == true` in the configuration object.
+
+> Tip: to save faster JSON data when no validation is required (i.e: logging from client) you may use `Content-Type=text/plain`, so JSON.parse is not executed.
 
 ### Plugins
 
@@ -232,8 +245,6 @@ server.use( (req, res, next) => {
   next()
 })
 ```
-
-
 
 ### WebSockets
 

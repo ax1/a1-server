@@ -28,7 +28,7 @@ async function get(request, response, params) {
 }
 
 async function post(request, response, params) {
-  const data = JSON.parse(request.body)
+  const data = request.body
   if (!data.id) data.id = new Date().valueOf()
   db[data.id] = data
   response.statusCode = 201
@@ -40,7 +40,7 @@ async function post(request, response, params) {
 }
 
 async function put(request, response, params) {
-  const data = JSON.parse(request.body)
+  const data = request.body
   if (db[data.id]) {
     db[data.id] = data
     response.statusCode = 204
