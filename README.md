@@ -69,7 +69,7 @@ server.start(configuration)
 Available options, and their default values:
 
 ```javascript
-{
+let configuration = {
   ssl: {
     /*key: fs.readFileSync('~/webapp/server.key'),
     cert: fs.readFileSync('~/webapp/server.crt')
@@ -80,7 +80,10 @@ Available options, and their default values:
   port: '8080',
   staticFolder: 'public',
   dynamicFolder: 'app',
-  rules: { '/': 'index.html' },
+  rules: {
+    '/': 'index.html'
+  },
+  externalBodyParser: false, /* buil-in parser, if using external parsers (i.e: body-parser), enable this option*/
   Logger: Logger
 }
 ```
