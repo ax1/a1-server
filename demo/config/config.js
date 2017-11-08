@@ -22,7 +22,6 @@ const serverConfiguration = {
     '/cars(/:id)': '/cars',
     '/prueba(/*)': 'http://serverfault.com',
     '/rest/*': '/services/*'
-
   },
   Logger: Logger
 }
