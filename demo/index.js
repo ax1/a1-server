@@ -22,7 +22,7 @@ let WebSocketServer = require('ws').Server
 // })
 // server.use(morgan('combined'))
 
-console.log('\x1b[32mstarting demo server\x1b[0m')
+console.log(`\x1b[32mstarting demo server at ${configuration.port}\x1b[0m`)
 /**
  * Start an HTTP server
  */
