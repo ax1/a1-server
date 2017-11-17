@@ -207,7 +207,7 @@ async function list(request, response, params) {
 ```
 ### POST, PUT, DELETE & PATCH methods
 
-Unlike GET method, these ones can contain data (payload) in the request. The built-in feature for these methods is to get the **payload and add it to the `request.body` parameter. The body type is always a `String`**. 
+Unlike GET method, these ones can contain data (payload) in the request. The built-in feature for these methods is to get the **payload and add it to the `request.body` parameter. The body type is always a `String`**.
 
 This allows *fastest* processing of the request, instead of parsing body data for unwanted requests. Besides, documentation keeps easier to understand and it allows flexible solutions. JSON parsing was enabled before but for real world projects you usually have to check things before parsing JSON (user authenticated, resource exists in the database, etc, and discard the request promptly, so in the end, best is to leave the developer when to parse the data).   
 
@@ -275,7 +275,7 @@ server.start(configuration)
 
 // STEP-2 use the standard logger (it behaves as a proxy for the real logger)
 // in the js files
-const Logger = require('a1-server/Logger')
+const Logger = require('a1-server').Logger
 const logger = Logger.getLogger('your-logger-name')
 // ...
 logger.error(err) // logged by using winston
@@ -284,7 +284,7 @@ logger.info('hi')
 In development time, the default logger is attached to the console, so use logging instead of console.* methods from the beginning. If you prefer to have no logger output in development mode (for instance, to test requests performance), just configure the Logger to NoOutputLogger.
 
 ```javascript
-let Logger = require('a1-server/Logger')
+let Logger = require('a1-server').Logger
 Logger.configure(Logger.NoOutputLogger) //no output
 ```
 
