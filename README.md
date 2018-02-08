@@ -175,11 +175,10 @@ REST service:
 
 The params object is already filled (when the router is processed). These are REST params only, the queryString params can be taken from the request object as usual
 
-> Look how the error thrown has the HTTP status code
-
 ```javascript
 // file at /app/cars.js
 
+const http = require('http')
 module.exports = { get }
 
 // emulate a database
@@ -197,7 +196,10 @@ async function get(request, response, params) {
 
 async function getItem(request, response, params) {
   const obj = cars[params.id]
-  if (!obj) throw(404)
+  if (!obj) {
+    response.statusCode = 404
+    return http.STATUS_CODES[404] // optional, send status message
+  }
   else return obj
 }
 

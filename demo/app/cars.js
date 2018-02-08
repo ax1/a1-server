@@ -1,3 +1,4 @@
+const http = require('http')
 /**
  * REST example
  */
@@ -46,7 +47,8 @@ async function put(request, response, params) {
     response.statusCode = 204
     return data
   } else {
-    throw (404)
+    response.statusCode = 404
+    return http.STATUS_CODES[404]
   }
 }
 
@@ -55,8 +57,12 @@ async function remove(request, response, params) {
     if (db[params.id]) {
       delete db[params.id];
       return 1
-    } else throw (404)
+    } {
+      response.statusCode = 404
+      return http.STATUS_CODES[404]
+    }
   } else {
-    throw (400)
+    response.statusCode = 400
+    return http.STATUS_CODES[400]
   }
 }
