@@ -16,25 +16,25 @@ npm install a1-server
 
 ## 1 min Tutorial
 
-Just use the default configuration (port 8080, static files at folder /public and dynamic files at folder /app )
+Creating your own server has never been easier. The default configuration is quite handy (port 8080, static files at folder `/public` and dynamic files at `folder /app`)
 
+Startup file at /index.js or /main.js :
 ```javascript
-// index.js page
 const server = require('a1-server')
 server.start()
-
-// in terminal: start the server:
-//    > cd .../yourApp  
-//    > node index
-// now open a browser and go to http://localhost:8080
 ```
 
-Instead of returning a callback, this module returns a promise after started. The parameter returned is a node [http server](https://nodejs.org/api/http.html#http_class_http_server). Then you could use the node httpServer object to, for instance, attach a web socket.
-
+Dynamic page at /app/hello.js;
 ```javascript
-// index.js page
-const server = require('a1-server')
-server.start().then(httpServer => {}).catch(err => {})
+module.exports = { get }
+function get() {
+  return 'Now is '+ (new Date()).toTimeString()
+}
+```
+
+Now start the server and browse to http://localhost:8080/hello
+```sh
+node index
 ```
 
 ## 30 min Tutorial (or less)
@@ -43,6 +43,17 @@ server.start().then(httpServer => {}).catch(err => {})
 
 
 ### starting the server
+
+This module returns a promise after started. The parameter returned is a node [http server](https://nodejs.org/api/http.html#http_class_http_server). Then you could use the node httpServer object to, for instance, attach a web socket.
+
+```javascript
+// index.js page
+const server = require('a1-server')
+server.start()   // default
+// server.start().then(httpServer => {...}).catch(err => {...}) // continue initializing server
+```
+
+now open terminal and type:
 
 ```sh
 cd yourApp
@@ -99,7 +110,7 @@ When routing you can:
 - reverse proxying requests to other servers you trust in.
 
 
-#### Automatic routing
+#### Automatic routing (recommended-no config!)
 
 - if the request has an extension (.html, .js, .css, .png, ...), a static file is served. This file should be located at the 'public' directory
 - if the request has not extension:
@@ -213,7 +224,7 @@ Unlike GET method, these ones can contain data (payload) in the request. The bui
 
 This allows *fastest* processing of the request, instead of parsing body data for unwanted requests. Besides, documentation keeps easier to understand and it allows flexible solutions. JSON parsing was enabled before but for real world projects you usually have to check things before parsing JSON (user authenticated, resource exists in the database, etc, and discard the request promptly, so in the end, best is to leave the developer when to parse the data).   
 
-You can disable the built-in feature and use third party plugins ( [body-parser](https://www.npmjs.com/package/body-parser) and others) for parsing the body. Just set `externalBodyParser == true` in the configuration object.
+You can disable the built-in feature and use third party plugins ( [body-parser](https://www.npmjs.com/package/body-parser) and others) for parsing the body. Set `externalBodyParser == true` in the configuration object.
 
 ### Plugins
 
@@ -283,7 +294,7 @@ const logger = Logger.getLogger('your-logger-name')
 logger.error(err) // logged by using winston
 logger.info('hi')
 ```
-In development time, the default logger is attached to the console, so use logging instead of console.* methods from the beginning. If you prefer to have no logger output in development mode (for instance, to test requests performance), just configure the Logger to NoOutputLogger.
+In development time, the default logger is attached to the console, so use logging instead of console.* methods from the beginning. If you prefer to have no logger output in development mode (for instance, to test requests performance), configure the Logger to NoOutputLogger.
 
 ```javascript
 let Logger = require('a1-server').Logger
