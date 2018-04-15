@@ -42,7 +42,7 @@ function startWebsocket(httpServer) {
   wss.on('connection', ws => {
     ws.on('message', message => {
       ws.send('you said: ' + message)
-      ws.send('and I am saying to you: shut the fuck up!!!')
+      ws.send('and I am saying to you: pong!!!')
     })
   })
 }
