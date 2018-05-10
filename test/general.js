@@ -27,7 +27,7 @@ describe('index.html pages', () => {
       done()
     })
   })
-  it('/index -> index.html', (done) => {
+  it('/index -> /index.html', (done) => {
     chai.request(host).get('/index').end((err, res) => {
       res.should.have.status(200)
       done()
@@ -58,19 +58,16 @@ describe('requests', () => {
   })
   let id_test = null
   it('rest post', (done) => {
-    chai.request(host).post(service).send({
-      name: "lada",
-      engine: "2.0",
-      id: "AEIOU"
-    }).end((err, res) => {
-      res.should.have.status(201)
-      res.should.have.header('Location')
-      res.body.should.be.a('object')
-      let id = res.body.id
-      id.should.be.a('string')
-      id_test = id
-      done()
-    })
+    chai.request(host).post(service).send({ name: "lada", engine: "2.0", id: "AEIOU" })
+      .end((err, res) => {
+        res.should.have.status(201)
+        res.should.have.header('Location')
+        res.body.should.be.a('object')
+        let id = res.body.id
+        id.should.be.a('string')
+        id_test = id
+        done()
+      })
   })
   it('rest put', (done) => {
     chai.request(host).put(service + '/' + id_test).send({
@@ -124,17 +121,10 @@ describe('streams', () => {
 })
 
 //---------------------querystring behaviour----------------------------------
-describe('parameter handling', () => {
-  it('should parse querystring params when no route', (done) => {
+describe('querystring', () => {
+  it('should parse the querystring params', (done) => {
     chai.request(host).put('/test?person=max').end((err, res) => {
-      console.log(Object.keys(res))
-      res.text.includes('person').should.be.ok
-      done()
-    })
-  })
-  it('should merge querystring params when REST route params', (done) => {
-    chai.request(host).put('/cars/doKnnvbRCpt7fQaC?person=max').end((err, res) => {
-      console.log(Object.keys(res))
+      console.log(res.text)
       res.text.includes('person').should.be.ok
       done()
     })
