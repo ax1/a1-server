@@ -122,3 +122,14 @@ describe('streams', () => {
     })
   })
 })
+
+
+//----------------------handling error pages----------------------------------
+describe('errors', () => {
+  it('should return error 500', (done) => {
+    chai.request(host).put('/test').end((err, res) => {
+      res.should.have.status(500)
+      done()
+    })
+  })
+})
