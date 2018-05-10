@@ -8,6 +8,14 @@ Built-in logger, or use preferred loggers at any time with no code refactoring.
 
 Install express/connect middleware or create your own plugins.
 
+## Main changes
+
+### 2.0
+- `params` contain the parameters in the queryString. No parsing queryString anymore!
+- `params` is never null. Replace `if (!params)` by `(Object.keys(params).length==0)`
+- Add MIME types in header automatically
+
+
 ## Installation
 
 ```bash
@@ -149,8 +157,8 @@ server.start(configuration)
 
 
 ### Dynamic files
-- create a .js file at the `app` folder
-- exports the http methods you want to process (get post put delete)
+- create a .js file in the `app` folder
+- exports the http methods you want to process (get post put delete options)
 - implement the exported functions as [promises](https://developer.mozilla.org/en/docs/Web/JavaScript/Reference/Global_Objects/Promise) or  [async](https://developer.mozilla.org/en/docs/Web/JavaScript/Reference/Statements/async_function) functions (or normal functions if no I/O processing). The output of the function should be either a JSON object, a simple type (number, string), or a [stream](https://nodejs.org/api/stream.html).
 
 > IMPORTANT: no callbacks!!!
@@ -169,6 +177,8 @@ async function get(request, response, params) {
 }
 ```
 
+When the URL has a queryString, the `params` object is filled with these parameters.
+
 ### Creating a REST API
 
 The same as with normal dynamic files. The only difference is to add a rule in the server configuration to be able to extract the 'path' parameters.
@@ -184,7 +194,7 @@ const rules = {
 
 REST service:
 
-The params object is already filled (when the router is processed). These are REST params only, the queryString params can be taken from the request object as usual
+The `params` object is already filled as declared in the rule. If the URL has a queryString, these parameters are also added to the `params` (but they do not override the REST ones if same keys).
 
 ```javascript
 // file at /app/cars.js
