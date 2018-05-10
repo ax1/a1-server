@@ -123,6 +123,23 @@ describe('streams', () => {
   })
 })
 
+//---------------------querystring behaviour----------------------------------
+describe('parameter handling', () => {
+  it('should parse querystring params when no route', (done) => {
+    chai.request(host).put('/test?person=max').end((err, res) => {
+      console.log(Object.keys(res))
+      res.text.includes('person').should.be.ok
+      done()
+    })
+  })
+  it('should merge querystring params when REST route params', (done) => {
+    chai.request(host).put('/cars/doKnnvbRCpt7fQaC?person=max').end((err, res) => {
+      console.log(Object.keys(res))
+      res.text.includes('person').should.be.ok
+      done()
+    })
+  })
+})
 
 //----------------------handling error pages----------------------------------
 describe('errors', () => {

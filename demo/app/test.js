@@ -1,7 +1,7 @@
 module.exports = { get, post, put }
 
 function get(request, response, params) {
-  if (params) throw new Error('No params are allowed')
+  if (Object.keys(params).length > 0) throw new Error('No params are allowed')
   else return 'hola caracola'
 }
 
@@ -11,6 +11,6 @@ function post(request, response, params) {
 }
 
 function put(request, response, params) {
-  if (!params) throw new Error('No params are allowed')
+  if (Object.keys(params).length === 0) throw new Error('params are required')
   else return params
 }
