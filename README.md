@@ -55,10 +55,12 @@ node index
 This module returns a promise after started. The parameter returned is a node [http server](https://nodejs.org/api/http.html#http_class_http_server). Then you could use the node httpServer object to, for instance, attach a web socket.
 
 ```javascript
-// index.js page
+// --index.js page--
 const server = require('a1-server')
+// select start type (3 options)
 server.start()   // default
-// server.start().then(httpServer => {...}).catch(err => {...}) // continue initializing server
+server.start(8081) // custom port
+server.start().then(httpServer => {}).catch(err => {}) // perform actions after starting
 ```
 
 now open terminal and type:
