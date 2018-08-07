@@ -28,9 +28,7 @@ console.log(`\x1b[32mstarting demo server at ${configuration.port}\x1b[0m`)
  */
 server.start(configuration)
   .then(httpServer => startWebsocket(httpServer))
-  .catch(err => {
-    throw err
-  })
+  .catch(err => { throw err })
 
 /**
  * Start the websocket server
