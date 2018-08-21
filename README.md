@@ -104,7 +104,7 @@ let configuration = {
   rules: {
     '/': 'index.html'
   },
-  externalBodyParser: false, /* buil-in parser, if using external parsers (i.e: body-parser), enable this option*/
+  externalBodyParser: false, /* built-in parser, if using external parsers (i.e: body-parser), enable this option*/
   Logger: Logger
 }
 ```
@@ -122,7 +122,7 @@ When routing you can:
 
 #### Automatic routing (recommended-no config!)
 
-- if the request has an extension (.html, .js, .css, .png, ...), a static file is served. This file should be located at the 'public' directory
+- if the request has an extension (.html, .js, .css, .png, ...), a static file is served. This file should be located at the 'public' directory.
 - if the request has not extension:
   - if name + ".html" exists, that static file is served.
   - otherwise, a js file is executed in the server, and the result is sent back.
@@ -250,7 +250,7 @@ request -> is static file?
 
 Add plugins **the same way as connect or express middleware**. The plugins for these applications are **also valid** here (passport, morgan, cookie-parser, etc...).
 
-For custom plugins, **don't forget** to add next() or next(err) at the end of the function.
+For custom plugins, **remember** to add next() or next(err) at the end of the function.
 
 ```javascript
 // express-type plugin (middleware)
