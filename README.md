@@ -13,7 +13,7 @@ Install express/connect middleware or create your own plugins.
 ### 2.0
 - `params` contain the parameters in the queryString. No parsing queryString anymore!
 - `params` is never null. Replace `if (!params)` by `(Object.keys(params).length==0)`
-- Add MIME types in header automatically
+- add MIME types in header automatically
 
 
 ## Installation
