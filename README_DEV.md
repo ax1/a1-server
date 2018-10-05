@@ -8,7 +8,8 @@ node index.js
 ab -r -n 100000 -c 1000  http://localhost:8080/test
 
 ## PERFORMANCE
-- little improvement when removing req.on('error') (to start adapting to http2 docum) (13K requests/s)
+
+- little improvement when removing req.on('error') (to start adapting to http2 docum) (12.5K requests/s)
 - same performance at 10.11.1 (12K requests/s)
 - same performance at 9.1.0 and with 2.0 version (12K requests/s)
 - BIG performance drop at same 9.1.0 and same deps (12K requests/s)->maybe a OS kernel or libs update problem???? checkouting to previous versions shows also drop, so it is not the code itself)
@@ -25,6 +26,12 @@ ab -r -n 100000 -c 1000  http://localhost:8080/test
 - a1-server 12K
 
 Added a sample code in lib/server to start checking what are the functionalities that slow down the most (and check if refactoring is possible)
+
+
+20k raw
+18.5k without middleware and without dynamic file (middleware security.protect())
+16.5 without dynamic file
+13 all
 
 ## PERFORMANCE RAW NODE VS JAVA
 

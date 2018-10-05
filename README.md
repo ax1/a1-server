@@ -104,7 +104,8 @@ let configuration = {
   rules: {
     '/': 'index.html'
   },
-  externalBodyParser: false, /* built-in parser, if using external parsers (i.e: body-parser), enable this option*/
+  externalBodyParser: false,/* built-in parser, if using external parsers (i.e: body-parser), set to true*/
+  performance: false,/*disable some built-in plugins to allow more throughput. If max request/sec, set to true*/
   Logger: Logger
 }
 ```

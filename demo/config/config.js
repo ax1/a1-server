@@ -13,8 +13,8 @@
 //   }
 // }
 
-const Logger = require('../../lib/Logger')
-Logger.configure(Logger.NoOutputLogger) //no output
+// const Logger = require('../../lib/Logger')
+// Logger.configure(Logger.NoOutputLogger) //no output
 
 const serverConfiguration = {
   port: 8080,
@@ -23,7 +23,8 @@ const serverConfiguration = {
     '/prueba(/*)': 'http://serverfault.com',
     '/rest/*': '/services/*'
   },
-  Logger: Logger
+  /*Logger: Logger,*/
+  performance: true
 }
 
 module.exports = {
