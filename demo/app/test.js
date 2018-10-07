@@ -10,6 +10,6 @@ function post(request, response, params) {
 }
 
 function put(request, response, params) {
-  if (Object.keys(params).length === 0) throw new Error('params are required')
+  if (!params) throw new Error('No params are not allowed')
   else return params
 }

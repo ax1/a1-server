@@ -8,12 +8,9 @@ Built-in logger, or use preferred loggers at any time with no code refactoring.
 
 Install express/connect middleware or create your own plugins.
 
-## Main changes
+## Upgrading version
 
-### 2.0
-- `params` contain the parameters in the queryString. No parsing queryString anymore!
-- `params` is never null. Replace `if (!params)` by `(Object.keys(params).length==0)`
-- add MIME types in header automatically
+check the [release notes](VERSIONS.md)
 
 
 ## Installation

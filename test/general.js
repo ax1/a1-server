@@ -129,7 +129,15 @@ describe('querystring', () => {
       done()
     })
   })
+  it('should throw error if params===null', (done) => {
+    chai.request(host).put('/test').end((err, res) => {
+      res.should.have.status(500)
+      res.text.should.equal('Error: No params are not allowed')
+      done()
+    })
+  })
 })
+
 
 //----------------------handling error pages----------------------------------
 describe('errors', () => {
