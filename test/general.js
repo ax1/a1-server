@@ -132,12 +132,19 @@ describe('querystring', () => {
   it('should throw error if params===null', (done) => {
     chai.request(host).put('/test').end((err, res) => {
       res.should.have.status(500)
-      res.text.should.equal('Error: No params are not allowed')
       done()
     })
   })
 })
-
+//IMPORTANT, prevent sending ENOENT full file path or similar sensitive messages
+it('should hide real error message', (done) => {
+  chai.request(host).put('/test').end((err, res) => {
+    res.should.have.status(500)
+    res.text.should.not.equal('Error: No params are not allowed')
+    res.text.should.equal('Error: See server logs')
+    done()
+  })
+})
 
 //----------------------handling error pages----------------------------------
 describe('errors', () => {
