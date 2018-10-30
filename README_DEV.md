@@ -28,11 +28,15 @@ ab -r -n 100000 -c 1000  http://localhost:8080/test
 
 Added a sample code in lib/server to start checking what are the functionalities that slow down the most (and check if refactoring is possible)
 
-
 20k raw
 18.5k without middleware and without dynamic file (middleware security.protect())
 16.5 without dynamic file
 13 all
+
+## PERFORMANCE VS CLUSTER MODE
+
+- for small hello tests like these, cluster performance is 16K so it is worse than raw node
+- it only makes sense in production, when responses takes time in the database, etc.
 
 ## PERFORMANCE RAW NODE VS JAVA
 
