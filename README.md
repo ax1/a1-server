@@ -57,6 +57,7 @@ const server = require('a1-server')
 // select start type (3 options)
 server.start()   // default
 server.start(8081) // custom port
+server.start({...}) // config options, port, routing, etc
 server.start().then(httpServer => {}).catch(err => {}) // perform actions after starting
 ```
 
@@ -110,7 +111,7 @@ let configuration = {
 
 ### Routing
 
-When routing you can:
+Routing allows to:
 
 - serve static resources and dynamically generated resources.
 - beautify any .html request by removing the extension in the url.
@@ -228,6 +229,9 @@ async function list(request, response, params) {
   return Object.keys(cars)
 }
 ```
+
+> Note: to use the `delete` method, and avoid eslint or typescript warnings, declare the method with your preferred name (remove(), _delete(), etc...) in the `module.exports` variable. E.g: `module.exports = { get, post, put, delete: remove}`
+
 ### POST, PUT, DELETE & PATCH methods
 
 Unlike GET method, these ones can contain data (payload) in the request. The built-in feature for these methods is to get the **payload and add it to the `request.body` parameter. The body type is always a `String`**.
