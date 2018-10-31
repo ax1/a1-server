@@ -2,8 +2,10 @@
 
 For in-depth changes, see the source commits
 
+### 3.1.0
 - autoclose when non managed stream errors
 - allow throw(number) to send error response automatically
+- hide response error descriptions when throw() for security reasons
 
 ### 3.0
 - `performance` config flag when max throughput is required

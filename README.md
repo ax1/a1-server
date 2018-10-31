@@ -238,6 +238,33 @@ async function list(request, response, params) {
 
 > Note: to use the `delete` method, and avoid eslint or typescript warnings, declare the method with your preferred name (remove(), _delete(), etc...) in the `module.exports` variable. E.g: `module.exports = { get, post, put, delete: remove}`
 
+### throw() vs response error
+
+> Log errors is ok. Sending stack traces to users is silly.
+
+There are two ways of sending errors:
+
+**Using throw(number) or throw(error)**: Recommended. Easy to code and to reason about. If you want to send a response error throw the HTTP error code as a number or throw the Exception. Since unhandled exceptions also throw errors, for security reasons, the response text is not sent to the client (i.e: if error is ENOENT file /home/gina/server/doc/3377 you would send that in that machine there is a user "gina", and the file location of your server, etc)
+
+```javascript
+async function getItem(request, response, params) {
+  if (!cars[params.id]) throw(404)
+  else return obj
+}
+```
+**Setting the status code and text in the response**: You are responsible of sending useful info to the user or to the service client. But be careful not to send exception error texts from node core or modules (error.text = sentitive info).
+
+```javascript
+async function getItem(request, response, params) {
+  const obj = cars[params.id]
+  if (!obj) {
+    response.statusCode = 404
+    return http.STATUS_CODES[404] // optional, send status message (or a custom message)
+  }
+  else return obj
+}
+```
+
 ### POST, PUT, DELETE & PATCH methods
 
 Unlike GET method, these ones can contain data (payload) in the request. The built-in feature for these methods is to get the **payload and add it to the `request.body` parameter. The body type is always a `String`**.
