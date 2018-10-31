@@ -225,6 +225,12 @@ async function getItem(request, response, params) {
   else return obj
 }
 
+//the same function, but simpler, throwing error instead of managing the response manually
+async function getItem(request, response, params) {
+  if (!cars[params.id]) throw(404)
+  else return obj
+}
+
 async function list(request, response, params) {
   return Object.keys(cars)
 }

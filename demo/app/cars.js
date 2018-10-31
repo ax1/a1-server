@@ -49,6 +49,7 @@ async function put(request, response, params) {
   } else {
     response.statusCode = 404
     return http.STATUS_CODES[404]
+    //optional: simply throw(404)
   }
 }
 
@@ -60,9 +61,11 @@ async function remove(request, response, params) {
     } {
       response.statusCode = 404
       return http.STATUS_CODES[404]
+      //optional: simply throw(404)
     }
   } else {
     response.statusCode = 400
     return http.STATUS_CODES[400]
+    //optional: simply throw(400)
   }
 }
