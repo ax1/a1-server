@@ -2,6 +2,9 @@
 
 For in-depth changes, see the source commits
 
+- autoclose when non managed stream errors
+- allow throw(number) to send error response automatically
+
 ### 3.0
 - `performance` config flag when max throughput is required
 - allow again `params === null` (for 90 percent of time it is better, and Javascript will always have null types even if the FP trend rises)
