@@ -141,7 +141,7 @@ it('should hide real error message', (done) => {
   chai.request(host).put('/test').end((err, res) => {
     res.should.have.status(500)
     res.text.should.not.equal('Error: No params are not allowed')
-    res.text.should.equal('Error: See status code and server logs')
+    res.text.should.equal('Error: 500. Internal Server Error')
     done()
   })
 })
