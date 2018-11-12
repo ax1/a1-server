@@ -9,6 +9,7 @@ ab -r -n 100000 -c 1000  http://localhost:8080/test
 
 ## PERFORMANCE
 
+- same performance from 10.11.1 to 10.13.0 LTS (15K request/s)
 - performance increase when using `performance` flag (15K request/s)
 - little improvement when removing req.on('error') (to start adapting to http2 docum) (12.5K requests/s)
 - same performance at 10.11.1 (12K requests/s)
