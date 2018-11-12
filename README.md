@@ -135,12 +135,17 @@ Examples:
 
 By adding rules to the configuration. See  ['url-pattern'](https://www.npmjs.com/package/url-pattern) npm module.
 
+> Note: For the same resources, the stricter rules must be written before the general ones because the routing will go to the first rule matching the url 
+
 ```javascript
 const rules = {
   '/': '/index.html', // root page
   '/governance(/\*)': 'http://server1:8081', // proxy to private server
   '/cars(/:id)': '', // REST service
-  '/bikes(/:id)': '/other/' // another REST example
+  '/bikes(/:id)': '/other/', // another REST example
+  '/machines/:id/search': 'search', // go to search service
+  '/machines/:id/latest': 'latest', //go to latest service
+  '/machines(/:id(/:date))': 'machines', // /machines /machines/abc or machines/abc/20201231
 }
 const configuration = { rules }
 server.start(configuration)
@@ -244,7 +249,7 @@ async function list(request, response, params) {
 
 There are two ways of sending errors:
 
-**Using throw(number) or throw(error)**: Recommended. Easy to code and to reason about. If you want to send a response error throw the HTTP error code as a number or throw the Exception. Since unhandled exceptions also throw errors, for security reasons, the response text is not sent to the client (i.e: if error is ENOENT file /home/gina/server/doc/3377 you would send that in that machine there is a user "gina", and the file location of your server, etc)
+- **Using throw(number) or throw(error)**: Recommended. Easy to code and to reason about. If you want to send a response error throw the HTTP error code as a number or throw the Exception. Since unhandled exceptions also throw errors, for security reasons, the response text is not sent to the client (i.e: if error is ENOENT file /home/gina/server/doc/3377 you would send that in that machine there is a user "gina", and the file location of your server, etc). **So by default, and for your safety**, the real error is not sent unless you handle the exception.
 
 ```javascript
 async function getItem(request, response, params) {
@@ -252,14 +257,14 @@ async function getItem(request, response, params) {
   else return obj
 }
 ```
-**Setting the status code and text in the response**: You are responsible of sending useful info to the user or to the service client. But be careful not to send exception error texts from node core or modules (error.text = sentitive info).
+- **Setting the status code and text in the response**: You are responsible of sending useful info to the user or to the service client. But be careful not to send exception error texts from node core or modules (error.text = sentitive info).
 
 ```javascript
 async function getItem(request, response, params) {
   const obj = cars[params.id]
   if (!obj) {
     response.statusCode = 404
-    return http.STATUS_CODES[404] // optional, send status message (or a custom message)
+    return http.STATUS_CODES[404] // or: return 'the parameter "id" is not found' or return err.message and so on.
   }
   else return obj
 }
