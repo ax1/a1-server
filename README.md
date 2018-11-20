@@ -264,7 +264,8 @@ async function getItem(request, response, params) {
   const obj = cars[params.id]
   if (!obj) {
     response.statusCode = 404
-    return http.STATUS_CODES[404] // or: return 'the parameter "id" is not found' or return err.message and so on.
+    return 'Item not found'
+    // return http.STATUS_CODES[404]
   }
   else return obj
 }
