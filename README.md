@@ -102,7 +102,6 @@ let configuration = {
   rules: {
     '/': 'index.html'
   },
-  externalBodyParser: false,/* built-in parser, if using external parsers (i.e: body-parser), set to true*/
   performance: false,/*disable some built-in plugins to allow more throughput. If max request/sec, set to true*/
   Logger: Logger
 }
@@ -277,7 +276,7 @@ Unlike GET method, these ones can contain data (payload) in the request. The bui
 
 This allows *fastest* processing of the request, instead of parsing body data for unwanted requests. Besides, documentation keeps easier to understand and it allows flexible solutions. JSON parsing was enabled before but for real world projects you usually have to check things before parsing JSON (user authenticated, resource exists in the database, etc, and discard the request promptly, so in the end, best is to leave the developer when to parse the data).   
 
-You can disable the built-in feature and use third party plugins ( [body-parser](https://www.npmjs.com/package/body-parser) and others) for parsing the body. Set `externalBodyParser == true` in the configuration object.
+You can disable the built-in feature and use third party plugins ( [body-parser](https://www.npmjs.com/package/body-parser) and others) for parsing the body. These plugins usually add the `files` or `body` properties in the request.
 
 ### Plugins
 
