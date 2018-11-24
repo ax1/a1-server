@@ -229,9 +229,9 @@ async function getItem(request, response, params) {
   else return obj
 }
 
-//the same function, but simpler, throwing error instead of managing the response manually
+// the same function, but simpler, throwing error instead of managing the response manually
 async function getItem(request, response, params) {
-  if (!cars[params.id]) throw(404)
+  if (!cars[params.id]) throw(404) // also throw('404') and throw new Error('404')
   else return obj
 }
 
