@@ -272,9 +272,12 @@ async function getItem(request, response, params) {
 
 ### POST, PUT, DELETE & PATCH methods
 
-Unlike GET method, these ones can contain data (payload) in the request. The built-in feature for these methods is to get the **payload and add it to the `request.body` parameter. The body type is always a `String`**.
+Unlike GET method, these ones can contain data (payload) in the request. The built-in feature for these methods is to get the **payload and add it to the `request.body` parameter. The body type is always a `String`**. This is not applicable for files (see below). This is a trade-off between usability and performance. For small bodies it is handy just to call request.body instead of parsing the event, and for big forms or files, the content must be parsed manually. The default should be check authorization headers and so on before parsing a body (to reject content early), for small bodies it is useful to get them available, but for bigger ones, like files, it is better to force the application to process the request event.
 
-This allows *fastest* processing of the request, instead of parsing body data for unwanted requests. Besides, documentation keeps easier to understand and it allows flexible solutions. JSON parsing was enabled before but for real world projects you usually have to check things before parsing JSON (user authenticated, resource exists in the database, etc, and discard the request promptly, so in the end, best is to leave the developer when to parse the data).   
+Depending of body content-type to be sent:
+- `http://server/?param1=value1 (application/x-www-form-urlencoded)`. `request.body` is available
+- `JSON or text in body (text/plain, application/json)`. `request.body` is available as String
+- `File or keyvalue form (multipart/form-data)`. `request.body` not available. The body content must be parsed manually. See example in `demo` folder.
 
 You can disable the built-in feature and use third party plugins ( [body-parser](https://www.npmjs.com/package/body-parser) and others) for parsing the body. These plugins usually add the `files` or `body` properties in the request.
 

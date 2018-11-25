@@ -89,7 +89,8 @@ describe('requests', () => {
 
 //----------------------test a POST-------------------------------------------
 describe('POST method', () => {
-  it('should handle POST multipart/form-data', done => {
+  it('should handle MANUALLY POST multipart/form-data', done => {
+    //multipart can be also files, so before processing it is better to let developer decide, and then manage the body content
     chai.request(host).post('/test').field('name', 'Eddie').end((err, res) => {
       res.text.includes('Eddie').should.be.ok
       done()
@@ -140,8 +141,8 @@ describe('querystring', () => {
 it('should hide real error message', (done) => {
   chai.request(host).put('/test').end((err, res) => {
     res.should.have.status(500)
-    res.text.should.not.equal('Error: No params are not allowed')
-    res.text.should.equal('Error: 500. Internal Server Error')
+    res.text.should.not.equal('Error: No params are not allowed.')
+    res.text.should.equal('Error: 500. Internal Server Error.')
     done()
   })
 })
