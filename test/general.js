@@ -48,7 +48,7 @@ describe('index.html pages', () => {
 })
 
 //----------------------static dynamic and rest requests---------
-describe('requests', () => {
+describe('requests (static & dynamic)', () => {
   var service = '/cars'
   it('rest get', (done) => {
     chai.request(host).get(service).end((err, res) => {
@@ -81,6 +81,12 @@ describe('requests', () => {
   })
   it('rest delete', (done) => {
     chai.request(host).delete(service + '/' + id_test).end((err, res) => {
+      res.should.have.status(200)
+      done()
+    })
+  })
+  it('static page can have no extension', (done) => {
+    chai.request(host).get('/sample').end((err, res) => {
       res.should.have.status(200)
       done()
     })
