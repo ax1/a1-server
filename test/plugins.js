@@ -1,15 +1,15 @@
 var assert = require('assert')
 var plugins = require('../lib/plugins')
 
-var plugin1 = function(req, res, next) {
-  process.nextTick(function() {
-    console.log('plugin1 executed');
+var plugin1 = function (req, res, next) {
+  process.nextTick(function () {
+    //console.log('plugin1 executed');
     next()
   })
 }
 
-var plugin2 = function(req, res, next) {
-  console.log('plugin2 executed');
+var plugin2 = function (req, res, next) {
+  //console.log('plugin2 executed');
   next()
 }
 assert(true, 'install');

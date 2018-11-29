@@ -5,6 +5,26 @@ const should = chai.should()
 const host = 'http://localhost:8080'
 chai.use(chaiHttp)
 
+const server = require('../lib/server')
+
+
+//----------------------HOOKS: start and stop server-------------
+before(function (done) {
+  process.env.ROOT = process.cwd() + "/demo"
+  const config = require("../demo/config/config").configuration
+  config.performance = false
+  server.start(config)
+    .then(server => done())
+    .catch(err => { console.error(err); done() })
+})
+
+after(function (done) {
+  server.stop()
+    .then(server => done())
+    .catch(err => { console.error(err); done() })
+})
+
+
 //----------------------general----------------------------------
 describe('test environment', () => {
   it('mocha is working', () => {

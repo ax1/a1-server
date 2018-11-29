@@ -1,5 +1,5 @@
-coverage
 dist
 demo/database
 node_modules
 .tern-project
+.nyc_output
