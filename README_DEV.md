@@ -8,6 +8,7 @@ node index.js
 ab -r -n 100000 -c 1000  http://localhost:8080/test
 
 ## PERFORMANCE
+- slight degradation when updating to node 12.0.0 (14.7K request/s). Node 12 introduces llhtttp by default instead of http-server, but whatever
 - same performance after changing checks for dyn and static files (15K request/s)
 - same performance from 10.11.1 to 10.13.0 LTS (15K request/s)
 - performance increase when using `performance` flag (15K request/s)
