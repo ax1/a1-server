@@ -1,6 +1,6 @@
 {
   "name": "a1-server",
-  "version": "3.1.6",
+  "version": "3.1.7",
   "description": "Amplify your server powers",
   "main": "lib/server.js",
   "scripts": {
