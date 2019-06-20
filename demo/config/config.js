@@ -24,7 +24,6 @@ const serverConfiguration = {
     '/rest/*': '/services/*'
   },
   /*Logger: Logger,*/
-  performance: true
 }
 
 module.exports = {
