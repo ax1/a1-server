@@ -102,7 +102,6 @@ let configuration = {
   rules: {
     '/': 'index.html'
   },
-  performance: false,/*disable some built-in plugins to allow more throughput. If max request/sec, set to true*/
   Logger: Logger
 }
 ```
@@ -395,3 +394,10 @@ More info at:
 https://www.reddit.com/r/node/comments/6uwbh2/ive_used_pm2_to_scale_my_app_across_cores_on_a/
 
 https://www.nginx.com/blog/5-performance-tips-for-node-js-applications/
+
+
+## Final note for benchmarks
+
+99% of the time , the default config is OK.
+
+For benchmarking against other platforms, add the `SERVER_PERFORMANCE` environment var. E.g:`SERVER_PERFORMANCE=true npm start`. This mode disables custom routing and logs (as other frameworks do) but it is useful only to 1-compare relative speed and 2-check performance regressions on new node or lib versions.
