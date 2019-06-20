@@ -10,7 +10,7 @@ const server = require('../lib/server')
 
 //----------------------HOOKS: start and stop server-------------
 before(function (done) {
-  process.env.ROOT = process.cwd() + "/demo"
+  process.env.SERVER_ROOT = process.cwd() + "/demo"
   const config = require("../demo/config/config").configuration
   config.performance = false
   server.start(config)
