@@ -117,7 +117,7 @@ Routing allows to:
 - reverse proxying requests to other servers you trust in.
 
 
-#### Automatic routing (recommended-no config!)
+#### Automatic routing (the less config, the better)
 
 - if the request has an extension (.html, .js, .css, .png, ...), a static file is served. This file should be located at the 'public' directory.
 - if the request has not extension:
@@ -128,6 +128,8 @@ Examples:
 - /index.html will serve /public/index.html
 - /index will serve /public/index.html, since it exists
 - /process will execute /app/process.js
+
+> Note: for REST services, automatic routing is also enabled to detect path parameters (and therefore no need to add routing rules in most of the cases). See in sub-section REST
 
 #### Custom Routing
 
@@ -186,6 +188,37 @@ When the URL has a queryString, the `params` object is filled with these paramet
 ### Creating a REST API
 
 The same as with normal dynamic files. The only difference is to add a rule in the server configuration to be able to extract the 'path' parameters.
+Since zero-config routing is also enabled for REST services, you could create a rest service  with no rule and read the rest parameters named p0, p1, etc. No decorators or dependency injection is required.
+
+Thanks to automatic REST rule generation, no need to manual typing in most of the cases. Example: `/a/b/c/d` results in `file: app/a/b.js` and `params:{p0:c, p1:d}`. This allows direct reusability of REST services either by dropping or by linking into the /app folder. This also allows to generate REST services in real-time.
+
+
+### Creating a ZERO-CONFIG REST API (most of the time you should use this)
+
+Configuration: none (that's the key to reuse code without pain)
+
+REST service:
+
+```javascript
+// file /app/people.js
+module.exports = { get }
+
+function get(req, res, params) {
+  const name = params.p0
+  const consult = params.p1
+  return params
+}
+```
+
+URL request:
+
+http://localhost:8080/people/Harris/permissions where the service is `/people/`
+
+
+
+### Creating a CUSTOM API
+
+Sometimes you need or prefer explicit handling of the REST parameters, in this case add a custom rule in the configuration object when starting the server
 
 Configuration:
 

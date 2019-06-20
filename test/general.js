@@ -12,7 +12,6 @@ const server = require('../lib/server')
 before(function (done) {
   process.env.SERVER_ROOT = process.cwd() + "/demo"
   const config = require("../demo/config/config").configuration
-  config.performance = false
   server.start(config)
     .then(server => done())
     .catch(err => { console.error(err); done() })
@@ -108,6 +107,22 @@ describe('requests (static & dynamic)', () => {
   it('static page can have no extension', (done) => {
     chai.request(host).get('/sample').end((err, res) => {
       res.should.have.status(200)
+      done()
+    })
+  })
+})
+
+//----------------------ZERO CONFIG rest requests---------
+describe('ZERO CONFIG REST services (no need to config rules)', () => {
+  var service = '/people/Harris/permissions'
+  it('rest auto-detect parameters', (done) => {
+    chai.request(host).get(service).end((err, res) => {
+      res.should.have.status(200)
+      res.body.should.be.a('object')
+      res.body.p0.should.be.a('string')
+      res.body.p1.should.be.a('string')
+      res.body.p0.should.be.equal('Harris')
+      res.body.p1.should.be.equal('permissions')
       done()
     })
   })

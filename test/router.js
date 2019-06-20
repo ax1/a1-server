@@ -29,4 +29,11 @@ describe('routing', () => {
     res.path.should.equal('/other/')
     res.params.id.should.equal('33')
   })
+  it('use ZERO-CONF REST services', () => {
+    // const res = router.resolve('/people/alopez/permissions')
+    // res.path.should.equal('/people/')
+    // res.params.p0.should.equal('alopez')
+    // res.params.p1.should.equal('permissions')
+    console.log('ZERO-CONF REST services are tested in tge general tests')
+  })
 })
