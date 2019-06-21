@@ -144,13 +144,20 @@ const rules = {
   '/cars(/:id)': '', // REST service
   '/bikes(/:id)': '/other/', // another REST example
   '/machines/:id/search': 'search', // go to search service
-  '/machines/:id/latest': 'latest', //go to latest service
+  '/machines/:id/latest': 'latest', //go tgita latest service
   '/machines(/:id(/:date))': 'machines', // /machines /machines/abc or machines/abc/20201231
 }
 const configuration = { rules }
 server.start(configuration)
 ```
 
+#### External Routing
+
+In order to reuse /public and /app resources from other locations withouth installing a copy, you can create a symbolic link to the folder of the external resource. Only the files inside that folder (so no way to access parent resources by tricking with ../../) are provided. Note also that this feature should be used only in few cases and **as a general rule you should not add symbolic links in the server folders**.
+
+Example:
+- server1/app/control folder has persons.js and machines.js
+- server2/app/ has a symbolic link to control, so persons and machines can be executed
 
 
 ### Static files

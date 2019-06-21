@@ -1,0 +1,1 @@
+console.log('this js should only be reached as a js web resource, not as a js executed in the server')
