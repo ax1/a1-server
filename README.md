@@ -129,7 +129,7 @@ Examples:
 - /index will serve /public/index.html, since it exists
 - /process will execute /app/process.js
 
-> Note: for REST services, automatic routing is also enabled to detect path parameters (and therefore no need to add routing rules in most of the cases). See in sub-section REST
+> Note: for REST services, automatic routing is also enabled to detect path parameters (and therefore no need to add routing rules in most of the cases). See in sub-section REST.
 
 #### Custom Routing
 
