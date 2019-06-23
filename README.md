@@ -150,7 +150,7 @@ const rules = {
   '/cars(/:id)': '', // REST service
   '/bikes(/:id)': '/other/', // another REST example
   '/machines/:id/search': 'search', // go to search service
-  '/machines/:id/latest': 'latest', //go tgita latest service
+  '/machines/:id/latest': 'latest', //go to latest service
   '/machines(/:id(/:date))': 'machines', // /machines /machines/abc or machines/abc/20201231
 }
 const configuration = { rules }
