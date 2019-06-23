@@ -47,7 +47,7 @@ node index
 > HINT: check demo application in the module (node_modules/a1-server/demo)
 
 
-### starting the server
+### Starting the server
 
 This module returns a promise after started. The parameter returned is a node [http server](https://nodejs.org/api/http.html#http_class_http_server). Then you could use the node httpServer object to, for instance, attach a web socket.
 
@@ -67,6 +67,12 @@ now open terminal and type:
 cd yourApp
 node index.js
 ```
+
+### Setting the port
+
+- default port is 8080, no config required
+- using the env variable PORT when starting `PORT=8081 node index`
+- or use the port property in the index.js code `server.start(8081)`
 
 
 ### Configuration
