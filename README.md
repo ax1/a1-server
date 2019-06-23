@@ -153,6 +153,8 @@ server.start(configuration)
 
 #### External Routing
 
+> Note: external routing is only useful on development phase (for convenience) or when reusing static resources. For the rest of cases it is better to provide the external features in another server addres and the add a rule for proxying the resource (e.g.:`'/governance(/\*)': 'http://server1:8081'`).
+
 In order to reuse /public and /app resources from other locations withouth installing a copy, you can create a symbolic link to the folder of the external resource. Only the files inside that folder (so no way to access parent resources by tricking with ../../) are provided. Note also that this feature should be used only in few cases and **as a general rule you should not add symbolic links in the server folders**.
 
 Example:
