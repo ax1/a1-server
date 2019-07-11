@@ -52,6 +52,7 @@ describe('index.html pages', () => {
       done()
     })
   })
+
   // chai-http does not stop on 301, it appears to call redirect automatically
   // it('/details -> /details/ [status 301]', (done) => {
   //   // 301 because if folder and no trailing slash, the browser would get the page, but if that page requests for js resources the path of those resources are not relative to that folder, but the parent
@@ -61,6 +62,15 @@ describe('index.html pages', () => {
   //     done()
   //   })
   // })
+
+  // IMPORTANT: related issue #9. Unsing plain http to avoid redirection. See above,chai-http does not stop on 301, it appears to call redirect automatically
+  it('/details -> /details/ [status 301]', (done) => {
+    require('http').get(host + '/details', (resp) => {
+      console.log(resp.statusCode)
+      resp.should.have.status(301)
+      done()
+    })
+  })
   it('/details/ -> /details/index.html', (done) => {
     chai.request(host).get('/details/').end((err, res) => {
       res.should.have.status(200)
