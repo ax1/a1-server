@@ -96,8 +96,8 @@ Available options, and their default values:
 ```javascript
 let configuration = {
   ssl: {
-    /*key: fs.readFileSync('~/webapp/server.key'),
-    cert: fs.readFileSync('~/webapp/server.crt')
+    /*key: '~/webapp/server.key',
+     cert: '~/webapp/server.crt'
     */
   },
   serverName: '',

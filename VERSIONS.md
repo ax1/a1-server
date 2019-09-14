@@ -2,6 +2,13 @@
 
 For in-depth changes, see the source 
 
+### 3.4.0
+- ssl configuration is file strings instead of file(). This way, the config data can be JSON-able.
+- start from different ports by using `PORT` environment variable.
+
+### 3.3.0
+- allow symbolic links in `public` and `app` to use resources from other applications without adding them as dependencies. Useful for merging REST services from different apps.
+
 ### 3.2.0
 - automatic REST rule generation, no need to manual typing in most of the cases. Example: `/a/b/c/d` results in `file: app/a/b.js` and `params:{p0:c, p1:d}`. This allows direct reusability of REST services either by dropping or by linking into the /app folder. This also allows to generate REST services in real-time.
 - performance config parameter is obsolete. Now you can use `SERVER_PERFORMANCE` environment variable.

@@ -8,8 +8,8 @@
 //     '/rest/*': '/services/*'
 //   },
 //   ssl: {
-//     key: require('fs').readFileSync('./config/server.key'),
-//     cert: require('fs').readFileSync('./config/server.crt')
+//     key: './config/server.key',
+//     cert: './config/server.crt'
 //   }
 // }
 
