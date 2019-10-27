@@ -8,7 +8,9 @@ SERVER_PERFORMANCE=true npm start
 
 ab -r -n 100000 -c 1000  http://localhost:8080/test
 
-## PERFORMANCE
+## PERFORMANCE (1 thread)
+
+- degradation to 12.8K when updating to v12.13.0 LTS
 - degradation to 13.2K on same node 12.0. Since some security for checking files are performed, this could be improved but no need to add the performance boolean to those codes for now. Hacking the code to perform near plain node is not a must, compared to the set of features. Benchmark shold be only to ckeck for unexpected regressions
 - degradation to 13.7K r/s on same node 12.0. Performance settings have changed but review if we can improve it again  
 - slight degradation when updating to node 12.0.0 (14.7K request/s). Node 12 introduces llhtttp by default instead of http-server, but whatever
