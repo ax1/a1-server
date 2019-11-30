@@ -9,7 +9,7 @@ SERVER_PERFORMANCE=true npm start
 ab -r -n 100000 -c 1000  http://localhost:8080/test
 
 ## PERFORMANCE (1 thread)
-
+- degradation to 10K on same v12.13.0 LTS (OS problem? because raw node has also a big decrease to 16K, see below)
 - degradation to 12.8K when updating to v12.13.0 LTS
 - degradation to 13.2K on same node 12.0. Since some security for checking files are performed, this could be improved but no need to add the performance boolean to those codes for now. Hacking the code to perform near plain node is not a must, compared to the set of features. Benchmark shold be only to ckeck for unexpected regressions
 - degradation to 13.7K r/s on same node 12.0. Performance settings have changed but review if we can improve it again  
@@ -49,6 +49,7 @@ Added a sample code in lib/server to start checking what are the functionalities
 
 - javalin 2.2.4 (jetty) 22Kreq (by using all threads) 250MB after tests (which are the default XX values, so it could be tuned to use less memory. i:e 150MB would be OK for a medium load server)
 
+- node 12.13.0 raw server 16Kreq (cause of degradation:unknown)
 - node 10.11.0 raw server 20Kreq (by using ONLY 1 thread) 75MB after tests
 
 So **JAVA is OK** as a web server and **NODE is still relevant** since it uses far less resources
