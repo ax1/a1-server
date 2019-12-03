@@ -19,7 +19,7 @@ describe('built-in logger', () => {
 describe('winston logger', () => {
   let logger
   it('should create the logger object', () => {
-    logger = winston
+    logger = winston.createLogger({ transports: [new winston.transports.Console()] })
     logger.should.not.be.undefined
     logger.should.have.property('info')
   })
