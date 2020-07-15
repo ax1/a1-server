@@ -11,6 +11,7 @@ SERVER_PERFORMANCE=true npm start
 ab -r -n 100000 -c 1000  http://localhost:8080/test
 
 ## PERFORMANCE (1 thread)
+
 - improved to 17K on v13.5.0 (v13 has latest V8 perf. improvement, rawServer has also 17K so V8 performs optimizations)
 - improved to 15K on same v12.13.0 LTS (maybe older tests were executed without the SERVER_PERFORMANCE flag)
 - degradation to 10K on same v12.13.0 LTS (OS problem? because raw node has also a big decrease to 16K, see below)
