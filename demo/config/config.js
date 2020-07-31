@@ -15,7 +15,7 @@
 
 //const Logger = require('../../lib/Logger')
 //const customLogger = Logger.NoOutputLogger
-//Logger.configure(Logger.NoOutputLogger) //no output
+
 
 const serverConfiguration = {
   port: 8080,
@@ -24,7 +24,7 @@ const serverConfiguration = {
     '/prueba(/*)': 'http://serverfault.com',
     '/rest/*': '/services/*'
   },
-  //Logger: customLogger,
+  //Logger: require('../../lib/Logger').NoOutputLogger,
 }
 
 module.exports = {

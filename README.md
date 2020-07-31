@@ -377,9 +377,7 @@ server.start(serverConfiguration)
 
 ### Logging
 
-By default no logging module is required (for better performance), but if any of the most popular logging systems (winston, bunyan, log4js, etc...) is a requirement, that logging component can be added in the configuration object.
-
-This way, a developer only needs to use the Logger class shipped with the server. If in the future, the real logger is replaced by a new one, no code changes are required, just set the new logger you want to use in the configuration object.
+There is a default built-in Logger tracing all requests and error responses into the console, so no need to use other logging systems. Anyway, if another Logger is preferred  (winston, bunyan, log4js, pino, etc...), this can be added into the configuration object before starting. This way, the log statements and the log imports do not need to be updated in the code when changing from one Logger to another.
 
 ```javascript
 // STEP-1 configure the Logger to use when starting the server
@@ -389,18 +387,18 @@ const configuration = {
 server.start(configuration)
 
 // STEP-2 use the standard logger (it behaves as a proxy for the real logger)
-// in the js files
+// in your js files
 const Logger = require('a1-server').Logger
 const logger = Logger.getLogger('your-logger-name')
 // ...
 logger.error(err) // logged by using winston
-logger.info('hi')
+logger.info('hi') // logged by using winston
 ```
-In development time, the default logger is attached to the console, so use logging instead of console.* methods from the beginning. If you prefer to have no logger output in development mode (for instance, to test requests performance), configure the Logger to NoOutputLogger.
+In development time, the default logger is attached to the console, so use logging instead of console.* methods from the beginning. If you prefer to have another logger later, just add it into the config object. 
 
 ```javascript
-let Logger = require('a1-server').Logger
-Logger.configure(Logger.NoOutputLogger) //no output
+const { start, Logger } = require('a1-server)
+start({ Logger: Logger.NoOutputLogger })
 ```
 
 ## Tips on development
