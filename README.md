@@ -1,6 +1,6 @@
 # a1-server
 
-Next-gen **async/await** style web server. No need of callback style programming.
+Super easy to create and reuse REST services.
 
 All the basic features in one module, routing, static & dynamic pages, REST services and reverse-proxy.
 
@@ -21,12 +21,11 @@ npm install a1-server
 
 ## 1 min Tutorial
 
-Creating your own server has never been easier. The default configuration is quite handy (port 8080, static files at folder `/public` and dynamic files at `folder /app`)
+Creating your own server has never been easier. The default configuration is quite handy (port 8080, static files at folder `/public` and dynamic files at folder `/app`)
 
 Startup file at /index.js or /main.js :
 ```javascript
-const server = require('a1-server')
-server.start()
+require('a1-server').start().catch(console.error)
 ```
 
 Dynamic page at /app/hello.js;
@@ -54,8 +53,8 @@ This module returns a promise after started. The parameter returned is a node [h
 ```javascript
 // --index.js page--
 const server = require('a1-server')
-// select start type (3 options)
-server.start()   // default
+// select start type (different options)
+server.start()   // default 8080 port
 server.start(8081) // custom port
 server.start({...}) // config options, port, routing, etc
 server.start().then(httpServer => {}).catch(err => {}) // perform actions after starting
@@ -81,7 +80,7 @@ To create a configuration object just add the properties you want to change, and
 
 ```javascript
 const configuration = {
-  port: 80,
+  port: 3000,
   rules: {
     '/': 'landing.html',
     '/intranet/*': '/private/'
@@ -125,7 +124,7 @@ Routing allows to:
 
 #### Automatic routing (the less config, the better)
 
-- if the request has an extension (.html, .js, .css, .png, ...), a static file is served. This file should be located at the 'public' directory.
+- if the request has any extension (.html, .js, .css, .png, ...), a static file is served. This file should be located at the 'public' directory.
 - if the request has not extension:
   - if name + ".html" exists, that static file is served.
   - otherwise, a js file is executed in the server, and the result is sent back.
@@ -159,9 +158,9 @@ server.start(configuration)
 
 #### External Routing
 
-> Note: external routing is only useful on development phase (for convenience) or when reusing static resources. For the rest of cases it is better to provide the external features in another server addres and the add a rule for proxying the resource (e.g.:`'/governance(/*)': 'http://server1:8081'`).
+> Note: external routing is only useful on development phase (for convenience) or when reusing static resources. For the rest of cases it is better to provide the external features in another server address and then add a rule for proxying the resource (e.g.:`'/governance(/*)': 'http://server1:8081'`).
 
-In order to reuse /public and /app resources from other locations withouth installing a copy, you can create a symbolic link to the folder of the external resource. Only the files inside that folder (so no way to access parent resources by tricking with ../../) are provided. Note also that this feature should be used only in few cases and **as a general rule you should not add symbolic links in the server folders**.
+In order to reuse /public and /app resources from other locations withouth copying them, you can create a symbolic link to the folder of the external resource. Only the files inside that folder (so no way to access parent resources by tricking with ../../) are provided. Note also that this feature should be used only in few cases and **as a general rule, for security, you should not add symbolic links in the server folders**.
 
 Example:
 - server1/app/control folder has persons.js and machines.js
@@ -182,7 +181,6 @@ Example:
 - exports the http methods you want to process (get post put delete options)
 - implement the exported functions as [promises](https://developer.mozilla.org/en/docs/Web/JavaScript/Reference/Global_Objects/Promise) or  [async](https://developer.mozilla.org/en/docs/Web/JavaScript/Reference/Statements/async_function) functions (or normal functions if no I/O processing). The output of the function should be either a JSON object, a simple type (number, string), or a [stream](https://nodejs.org/api/stream.html).
 
-> IMPORTANT: no callbacks!!!
 
 ```javascript
 module.exports = { options, get }
@@ -194,7 +192,7 @@ function options(request, response, params) {
 
 // async keyword to avoid blocking
 async function get(request, response, params) {
-  return database.get(params.id)
+  return await database.get(params.id)
 }
 ```
 
@@ -405,7 +403,7 @@ start({ Logger: Logger.NoOutputLogger })
 
 - to reload automatically when files are saved, use nodemon or [pm2](https://www.npmjs.com/package/pm2) (`pm2 start app.js --watch`)
 
-## Tips on production
+## Tips in production
 
 To get the maximum performance, there are several useful techniques:
 - to use all CPU cores, use the cluster API or [pm2](https://www.npmjs.com/package/pm2) (`pm2 start app.js -i 0`)
@@ -444,6 +442,6 @@ https://www.nginx.com/blog/5-performance-tips-for-node-js-applications/
 
 ## Final note for benchmarks
 
-99% of the time , the default config is OK.
+99% of the time , the default configuration is OK.
 
 For benchmarking against other platforms, add the `SERVER_PERFORMANCE` environment var. E.g:`SERVER_PERFORMANCE=true npm start`. This mode disables custom routing and logs (as other frameworks do) but it is useful only to 1-compare relative speed and 2-check performance regressions on new node or lib versions.
