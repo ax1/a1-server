@@ -354,23 +354,26 @@ server.use( (req, res, next) => {
 
 ### WebSockets
 
-The simplest way is by using the [ws](https://www.npmjs.com/package/ws) module, already downloaded with the server.
+The code below is a full example of starting an http server and a websocket server. For more details, see the [ws](https://www.npmjs.com/package/ws) module package.
 
 ```javascript
+const server=require('a1-server')
 const WebSocketServer = require('ws').Server
 
-server.start(serverConfiguration)
+server.start()
   .then(httpServer => startWebsocket(httpServer))
   .catch(err => throw err)
 
-  function startWebsocket(httpServer) {
-    const wss = new WebSocketServer({ server: httpServer })
-    wss.on('connection', ws => {
-      ws.on('message', message => {
-        ws.send('response from the server')
-      })
-    })
-  }  
+function startWebsocket(httpServer) {
+  let wss = new WebSocketServer({ server: httpServer })
+  wss.on('connection', ws => {
+    ws.on('open', ev => console.log('websocket open'))
+    ws.on('close', client => console.log('client closed'))
+    ws.on('message', msg => ws.send('websocket server received ' + msg))
+    ws.on('error', console.error)
+    ws.on('pong', client => console.log('pong closed'))
+  })
+} 
 ```
 
 ### Logging

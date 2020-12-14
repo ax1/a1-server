@@ -34,13 +34,12 @@ server.start(configuration)
  * Start the websocket server
  */
 function startWebsocket(httpServer) {
-  let wss = new WebSocketServer({
-    server: httpServer
-  })
+  let wss = new WebSocketServer({ server: httpServer })
   wss.on('connection', ws => {
-    ws.on('message', message => {
-      ws.send('you said: ' + message)
-      ws.send('and I am saying to you: pong!!!')
-    })
+    ws.on('open', ev => console.log('websocket open'))
+    ws.on('close', client => console.log('client closed'))
+    ws.on('message', msg => ws.send('websocket server received ' + msg))
+    ws.on('error', console.error)
+    ws.on('pong', client => console.log('pong closed'))
   })
 }
