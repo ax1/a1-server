@@ -1,10 +1,7 @@
-let server = require("../lib/server")
-//let server=require("../lib/server")
+const server = require("../lib/server")
 //let morgan=require('morgan')
-let configuration = require("./config/config").configuration
-//let fs = require("fs")
-let WebSocketServer = require('ws').Server
-//require('../lib/persistence').start(__dirname+ '/database')
+const configuration = require("./config/config").configuration
+const WebSocketServer = require('ws').Server
 
 // server.use(require('express-winston').logger({
 //   transports: [
@@ -36,10 +33,11 @@ server.start(configuration)
 function startWebsocket(httpServer) {
   let wss = new WebSocketServer({ server: httpServer })
   wss.on('connection', ws => {
-    ws.on('open', ev => console.log('websocket open'))
+    console.log('client open')
     ws.on('close', client => console.log('client closed'))
     ws.on('message', msg => ws.send('websocket server received ' + msg))
     ws.on('error', console.error)
-    ws.on('pong', client => console.log('pong closed'))
+    ws.on('pong', client => console.log('client is alive'))
   })
+  return wss
 }

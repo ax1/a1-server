@@ -357,7 +357,7 @@ server.use( (req, res, next) => {
 The code below is a full example of starting an http server and a websocket server. For more details, see the [ws](https://www.npmjs.com/package/ws) module package.
 
 ```javascript
-const server=require('a1-server')
+const server = require('a1-server')
 const WebSocketServer = require('ws').Server
 
 server.start()
@@ -367,12 +367,13 @@ server.start()
 function startWebsocket(httpServer) {
   let wss = new WebSocketServer({ server: httpServer })
   wss.on('connection', ws => {
-    ws.on('open', ev => console.log('websocket open'))
+    console.log('client open')
     ws.on('close', client => console.log('client closed'))
     ws.on('message', msg => ws.send('websocket server received ' + msg))
     ws.on('error', console.error)
-    ws.on('pong', client => console.log('pong closed'))
+    ws.on('pong', client => console.log('client is alive'))
   })
+  return wss
 } 
 ```
 
