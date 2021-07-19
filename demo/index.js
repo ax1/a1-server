@@ -33,11 +33,11 @@ server.start(configuration)
 function startWebsocket(httpServer) {
   let wss = new WebSocketServer({ server: httpServer })
   wss.on('connection', ws => {
-    console.log('client open')
-    ws.on('close', client => console.log('client closed'))
+    console.log('ws client open')
+    ws.on('close', client => console.log('ws client closed'))
     ws.on('message', msg => ws.send('websocket server received ' + msg))
     ws.on('error', console.error)
-    ws.on('pong', client => console.log('client is alive'))
+    ws.on('pong', client => console.log('ws client is alive'))
   })
   return wss
 }

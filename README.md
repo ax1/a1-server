@@ -107,7 +107,8 @@ let configuration = {
   rules: {
     '/': 'index.html'
   },
-  Logger: Logger
+  Logger: Logger,
+  debug:false
 }
 ```
 
