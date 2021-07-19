@@ -24,7 +24,7 @@ const serverConfiguration = {
     '/prueba(/*)': 'http://serverfault.com',
     '/rest/*': '/services/*'
   },
-  //Logger: require('../../lib/Logger').NoOutputLogger,
+  Logger: require('../../lib/Logger').NoOutputLogger,
 }
 
 module.exports = {

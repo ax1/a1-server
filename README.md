@@ -250,7 +250,7 @@ The `params` object is already filled as declared in the rule. If the URL has a 
 // file at /app/cars.js
 
 const http = require('http')
-module.exports = { get }
+module.exports = { get, post, put, delete:remove }
 
 // emulate a database
 var cars = {
@@ -283,6 +283,20 @@ async function getItem(request, response, params) {
 async function list(request, response, params) {
   return Object.keys(cars)
 }
+
+async function post(request, response, params) {
+  const data = JSON.parse(request.body)
+  if (!data.id) data.id = new Date().valueOf()
+  db[data.id] = data
+  response.statusCode = 201
+  let location = request.url.endsWith('/')? request.url + data.id:request.url + '/' + data.id
+  response.setHeader('Location', location)
+  return data
+}
+
+async function put(...){...}
+
+async function remove(...){...}
 ```
 
 > Note: to use the `delete` method, and avoid eslint or typescript warnings, declare the method with your preferred name (remove(), _delete(), etc...) in the `module.exports` variable. E.g: `module.exports = { get, post, put, delete: remove}`

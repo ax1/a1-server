@@ -33,9 +33,7 @@ async function post(request, response, params) {
   if (!data.id) data.id = new Date().valueOf()
   db[data.id] = data
   response.statusCode = 201
-  let location = request.url
-  if (location.endsWith('/')) location = location + data.id
-  else location = location + '/' + data.id
+  let location = request.url.endsWith('/') ? request.url + data.id : request.url + '/' + data.id
   response.setHeader('Location', location)
   return data
 }
