@@ -1,6 +1,8 @@
 # VERSION HISTORY 
 
 For in-depth changes, see the source 
+### 3.7.0
+- request logs are not sent to output unless the new 'debug' config property is enabled
 
 ### 3.4.0
 - ssl configuration is file strings instead of file(). This way, the config data can be JSON-able.
