@@ -4,7 +4,7 @@ Super easy to create and reuse REST services.
 
 All the basic features in one module, routing, static & dynamic pages, REST services and reverse-proxy.
 
-Built-in logger, or use preferred loggers at any time with no code refactoring.
+Built-in logger, or use external loggers at any time with no code refactoring.
 
 Install express/connect middleware or create your own plugins.
 
@@ -41,7 +41,7 @@ Now start the server and browse to http://localhost:8080/hello
 node index
 ```
 
-## 30 min Tutorial (or less)
+## Full documentation
 
 > HINT: check demo application in the module (node_modules/a1-server/demo)
 
@@ -343,24 +343,32 @@ You can disable the built-in feature and use third party plugins ( [body-parser]
 
 ### Plugins
 
-A plugin is a function to be executed **before** a request has been processed. Plugins can be useful to check if user is authenticated, to insert headers, to log every request to the server, and so on.
+A plugin is a function to be executed **before** a request is processed. Plugins can be useful to check if user is authenticated, to insert headers, to log every request to the server, and so on. Plugins can also be executed **after** the response output is created but not sent to client yet. This case is also useful for adding custom headers to the response based on the output. 
 
-```
-request -> is static file?
-  |- yes -> send the file
-  |- no -> executePlugins -> execute and send the dynamic file
-```
+Plugins are executed when requesting dynamic content, not on static pages like html, css, etc (they are static!). In case an static resource must be processed, create it as a dynamic file, then process custom content as dynamic page or with a plugin. Note also that plugins can be slow because they are executed in **sequential** order. Once a plugin throws error, the request process will stop. In the long term, this is better, because it is easier to understand the list of steps just by looking the order of installation for the plugins.
 
-Add plugins **the same way as connect or express middleware**. The plugins for these applications are **also valid** here (passport, morgan, cookie-parser, etc...).
+There are two types of plugins:
+- **standard plugins**. These plugins can be sync or async functions, and they can also be easily added to the *before* or to the *after* events. 
+- **middleware plugins**. You can create or attach Express-like middleware with the `server.use()` method. Useful for reusing well-known, battle-tested middleware (passport, morgan, etc.). For custom middleware, do not forget to add next() or next(err) at the end of the function.
 
-For custom plugins, **remember** to add next() or next(err) at the end of the function.
 
 ```javascript
+const server = require('a1-server)
+
+// standard sync plugin
+server.addBefore((req, res) => console.log(req.url))
+
+// standard async pluging
+server.addBefore(async (req, res) => await checkAuthorization(req))
+
+// standard pluging executed after output created but before sent to client
+server.addAfter((req, res) => res.setHeader('X-verification', createToken(res)))
+
 // express-type plugin (middleware)
 const morgan = require('morgan')
 server.use(morgan('combined'))
 
-// custom plugin
+// custom plugin in middleware format
 server.use( (req, res, next) => {
   console.log('middleware executed')
   next()
