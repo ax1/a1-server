@@ -111,7 +111,13 @@ let configuration = {
   debug:false
 }
 ```
+### Environment variables
 
+These variables are optional. Only for starting the app *without modifying the code* (config file, loggers, etc).
+
+- PORT: override port `PORT=9000 node index`
+- DEBUG: trace http requests and other hidden messages `DEBUG=true node index`
+- PERFORMANCE: only for benchmarks and performance regressions detection `PERFORMANCE=true node index`
 
 ### Routing
 
@@ -159,9 +165,11 @@ server.start(configuration)
 
 #### External Routing
 
-> Note: external routing is only useful on development phase (for convenience) or when reusing static resources. For the rest of cases it is better to provide the external features in another server address and then add a rule for proxying the resource (e.g.:`'/governance(/*)': 'http://server1:8081'`).
+> Note: external routing is only useful on development phase (for convenience) or when reusing static resources. For the rest of cases it is better to provide the external features in another server address and then add a rule for proxying the resource (e.g.:`'/governance(/*)': 'http://server1:8081'` or using Nginx to redirect).
 
-In order to reuse /public and /app resources from other locations withouth copying them, you can create a symbolic link to the folder of the external resource. Only the files inside that folder (so no way to access parent resources by tricking with ../../) are provided. Note also that this feature should be used only in few cases and **as a general rule, for security, you should not add symbolic links in the server folders**.
+> Note2: this is the same behaviour as default Nginx configuration for symbolic links.
+
+In order to reuse /public and /app resources from other locations without copying them, you can create a symbolic link to the folder of the external resource. Only the files inside that folder (so no way to access parent resources by tricking with ../../) are provided. Note also that this feature should be used only in few cases and **as a general rule, for security, you should not add symbolic links in the server folders (public, app, )**.
 
 Example:
 - server1/app/control folder has persons.js and machines.js
@@ -345,7 +353,7 @@ You can disable the built-in feature and use third party plugins ( [body-parser]
 
 A plugin is a function to be executed **before** a request is processed. Plugins can be useful to check if user is authenticated, to insert headers, to log every request to the server, and so on. Plugins can also be executed **after** the response output is created but not sent to client yet. This case is also useful for adding custom headers to the response based on the output. 
 
-Plugins are executed when requesting dynamic content, not on static pages like html, css, etc (they are static!). In case an static resource must be processed, create it as a dynamic file, then process custom content as dynamic page or with a plugin. Note also that plugins can be slow because they are executed in **sequential** order. Once a plugin throws error, the request process will stop. In the long term, this is better, because it is easier to understand the list of steps just by looking the order of installation for the plugins.
+Plugins are executed when requesting dynamic content, not on static pages like html, css, etc (they are static!). In case any static resource should be processed, create it as a dynamic file, then process custom content as dynamic page or with a plugin. Note also that plugins can be slow because they are executed in **sequential** order. Once a plugin throws error, the request process will stop. In the long term, this is better, because it is easier to understand the list of steps just by looking the order of installation for the plugins.
 
 There are two types of plugins:
 - **standard plugins**. These plugins can be sync or async functions, and they can also be easily added to the *before* or to the *after* events. 
@@ -465,10 +473,3 @@ More info at:
 https://www.reddit.com/r/node/comments/6uwbh2/ive_used_pm2_to_scale_my_app_across_cores_on_a/
 
 https://www.nginx.com/blog/5-performance-tips-for-node-js-applications/
-
-
-## Final note for benchmarks
-
-99% of the time , the default configuration is OK.
-
-For benchmarking against other platforms, add the `SERVER_PERFORMANCE` environment var. E.g:`SERVER_PERFORMANCE=true npm start`. This mode disables custom routing and logs (as other frameworks do) but it is useful only to 1-compare relative speed and 2-check performance regressions on new node or lib versions.

@@ -13,7 +13,7 @@ For in-depth changes, see the source
 
 ### 3.2.0
 - automatic REST rule generation, no need to manual typing in most of the cases. Example: `/a/b/c/d` results in `file: app/a/b.js` and `params:{p0:c, p1:d}`. This allows direct reusability of REST services either by dropping or by linking into the /app folder. This also allows to generate REST services in real-time.
-- performance config parameter is obsolete. Now you can use `SERVER_PERFORMANCE` environment variable.
+- performance config parameter is obsolete. Now you can use `PERFORMANCE` environment variable.
 - Allow again to set a custom root folder for the application. Use the `SERVER_ROOT` environment variable.
 
 ### 3.1.0
