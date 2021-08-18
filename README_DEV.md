@@ -3,7 +3,7 @@
 ```sh
 cd a1-server/demo 
 
-SERVER_PERFORMANCE=true npm start
+PERFORMANCE=true npm start
 ```
 
 ## TEST
@@ -13,7 +13,7 @@ ab -r -n 100000 -c 1000  http://localhost:8080/test
 ## PERFORMANCE (1 thread)
 
 - improved to 17K on v13.5.0 (v13 has latest V8 perf. improvement, rawServer has also 17K so V8 performs optimizations)
-- improved to 15K on same v12.13.0 LTS (maybe older tests were executed without the SERVER_PERFORMANCE flag)
+- improved to 15K on same v12.13.0 LTS (maybe older tests were executed without the PERFORMANCE flag)
 - degradation to 10K on same v12.13.0 LTS (OS problem? because raw node has also a big decrease to 16K, see below)
 - degradation to 12.8K when updating to v12.13.0 LTS
 - degradation to 13.2K on same node 12.0. Since some security for checking files are performed, this could be improved but no need to add the performance boolean to those codes for now. Hacking the code to perform near plain node is not a must, compared to the set of features. Benchmark should be only to ckeck for unexpected regressions
