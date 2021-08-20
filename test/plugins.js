@@ -1,39 +1,33 @@
-var assert = require('assert')
-var plugins = require('../lib/plugins')
+const plugins = require('../lib/plugins')
 
-var plugin1 = function (req, res, next) {
-  process.nextTick(function () {
-    //console.log('plugin1 executed');
-    next()
-  })
+module.exports = { test }
+//---------------------- Standard plugins--------------------------------
+// standard sync plugin
+const pluginBefore = (req, res) => { }
+const pluginBeforeAsync = async (req, res) => { }
+const pluginAfter = (req, res) => { }
+
+async function testPlugins() {
+  plugins.addBefore(pluginBefore)
+  plugins.addBefore(pluginBeforeAsync)
+  plugins.addAfter(pluginAfter)
+  await plugins.executeBefore()
+  await plugins.executeAfter()
 }
 
-var plugin2 = function (req, res, next) {
-  //console.log('plugin2 executed');
-  next()
-}
-assert(true, 'install');
-(function install() {
-  try {
-    plugins.use(plugin1)
-    plugins.use(plugin2)
-    assert(true, 'install')
-  } catch (err) {
-    console.error(err);
-    assert(false, 'install')
-  }
-})()
+//---------------------- Middleware plugins--------------------------------
+const pluginMiddleware = function (req, res, next) { next() }
+const pluginMiddlewareAsync = function (req, res, next) { process.nextTick(function () { next() }) }
 
-
-async function execute() {
-  try {
-    var a = await plugins.executePlugins()
-    console.log(a)
-    assert(true, 'execute')
-  } catch (err) {
-    console.error(err);
-    assert(false, 'execute')
-  }
+async function testMiddleware() {
+  // install
+  plugins.use(pluginMiddleware)
+  plugins.use(pluginMiddlewareAsync)
+  // execute
+  await plugins.executeMiddleware()
 }
 
-execute()
+async function test() {
+  await testPlugins()
+  await testMiddleware()
+}
