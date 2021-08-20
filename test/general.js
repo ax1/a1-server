@@ -1,10 +1,12 @@
 /* eslint-env node, mocha */
 const chai = require('chai')
 const chaiHttp = require('chai-http')
+const { configuration } = require('../demo/config/config')
+const { rules } = require('./rules')
 const should = chai.should()
 const host = 'http://localhost:8080'
 chai.use(chaiHttp)
-
+const assert = require('assert')
 const server = require('../lib/server')
 
 
@@ -12,6 +14,7 @@ const server = require('../lib/server')
 before(function (done) {
   process.env.SERVER_ROOT = process.cwd() + "/demo"
   const config = require("../demo/config/config").configuration
+  config.rules = { ...config.rules, ...rules }
   server.start(config)
     .then(server => done())
     .catch(err => { console.error(err); done() })
@@ -214,5 +217,25 @@ describe('errors', () => {
       res.should.have.status(500)
       done()
     })
+  })
+})
+
+//----------------------call other tests not using mocha------------------------
+describe('plugins, proxy (non-mocha tests) ', () => {
+  it('should execute plugins tests', async () => {
+    try {
+      await require('./plugins').test()
+    } catch (err) {
+      console.error(err)
+      false.should.be.ok
+    }
+  })
+  it('should run PROXY pages', async () => {
+    try {
+      await require('./proxy').test()
+    } catch (err) {
+      console.error(err)
+      false.should.be.ok
+    }
   })
 })

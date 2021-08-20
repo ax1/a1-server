@@ -2,14 +2,9 @@
 const chai = require('chai')
 chai.should()
 const router = require('../lib/router')
+const { rules } = require('./rules')
 
 describe('routing', () => {
-  let rules = {
-    '/': '/index.html',
-    '/governance(/*)': 'http://google.com',
-    '/cars(/:id)': '',
-    '/bikes(/:id)': '/other/'
-  }
   router.load(rules)
   it('index', () => {
     const res = router.resolve('/')
@@ -34,6 +29,6 @@ describe('routing', () => {
     // res.path.should.equal('/people/')
     // res.params.p0.should.equal('alopez')
     // res.params.p1.should.equal('permissions')
-    console.log('ZERO-CONF REST services are tested in tge general tests')
+    console.log('ZERO-CONF REST services are tested in the general tests')
   })
 })
