@@ -5,7 +5,7 @@
   "main": "lib/server.js",
   "scripts": {
     "start": "cd demo && node index",
-    "test": "./node_modules/.bin/mocha test/general test/router test/Logger test/security --reporter spec && node test/plugins",
+    "test": "mocha test/general test/router test/Logger test/security --reporter spec && node test/plugins",
     "cover": "nyc node_modules/mocha/bin/_mocha test"
   },
   "keywords": [

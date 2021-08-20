@@ -31,6 +31,7 @@ For in-depth changes, see the source
 - add MIME types in header automatically
 
 ## 1.0
+- rename (and git init) from opamp to a1-server (see npm opamp for ancient commits)
 - use rest services as single files
 - add proxy
 - add static pages
