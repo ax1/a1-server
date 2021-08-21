@@ -3,6 +3,7 @@ const chai = require('chai')
 chai.should()
 const router = require('../lib/router')
 const { rules } = require('./rules')
+const URL_EXTERNAL = 'http://example.com'
 
 describe('routing', () => {
   router.load(rules)
@@ -12,11 +13,11 @@ describe('routing', () => {
   })
   it('url without params', () => {
     const res = router.resolve('/governance')
-    res.path.should.equal('http://google.com')
+    res.path.should.equal(URL_EXTERNAL)
   })
   it('url with params', () => {
     const res = router.resolve('/governance/car/test/?users.html')
-    res.path.should.equal('http://google.com/car/test/?users.html')
+    res.path.should.equal(`${URL_EXTERNAL}/car/test/?users.html`)
     res.params._.should.equal('car/test/?users.html')
   })
   it('REST url', () => {

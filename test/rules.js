@@ -1,6 +1,6 @@
 const rules = {
   '/': '/index.html',
-  '/governance(/*)': 'http://google.com',
+  '/governance(/*)': 'http://example.com',
   '/cars(/:id)': '',
   '/bikes(/:id)': '/other/'
 }

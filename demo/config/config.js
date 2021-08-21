@@ -21,7 +21,7 @@ const serverConfiguration = {
   port: 8080,
   rules: {
     '/cars(/:id)': '/cars',
-    '/prueba(/*)': 'http://serverfault.com',
+    '/prueba(/*)': 'http://example.com',
     '/rest/*': '/services/*'
   },
   Logger: require('../../lib/Logger').NoOutputLogger,
