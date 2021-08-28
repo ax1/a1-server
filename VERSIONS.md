@@ -1,8 +1,12 @@
 # VERSION HISTORY 
 
-For in-depth changes, see the source 
+For in-depth changes, see the source code or the commit messages.
+
+### 3.9.0
+- new projects can use ESM modules. CJS is also valid as usual.
+
 ### 3.7.0
-- request logs are not sent to output unless the new 'debug' config property is enabled
+- request logs are not sent to output unless the new 'debug' config property is enabled.
 
 ### 3.4.0
 - ssl configuration is file strings instead of file(). This way, the config data can be JSON-able.

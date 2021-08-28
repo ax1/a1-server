@@ -1,6 +1,6 @@
 # a1-server
 
-Super easy to create and reuse REST services.
+Tiny (but complete) web server.
 
 All the basic features in one module, routing, static & dynamic pages, REST services and reverse-proxy.
 
@@ -8,9 +8,7 @@ Built-in logger, or use external loggers at any time with no code refactoring.
 
 Install express/connect middleware or create your own plugins.
 
-## Upgrading version
-
-check the [release notes](VERSIONS.md)
+Check the [release notes](VERSIONS.md) when updating the server.
 
 
 ## Installation
@@ -23,6 +21,42 @@ npm install a1-server
 
 Creating your own server has never been easier. The default configuration is quite handy (port 8080, static files at folder `/public` and dynamic files at folder `/app`)
 
+The server can be used either on ESM projects or CJS projects.
+
+---
+
+### Project structure:
+- /app
+  - hello.js
+- /public
+  - index.html
+- index.js
+- package.json
+
+---
+### ESM syntax
+
+Startup file at /index.js or /main.js :
+```javascript
+import * as server from 'a1-server'
+await server.start()
+```
+
+Dynamic page at /app/hello.js;
+```javascript
+export function get() {
+  return 'Now is '+ new Date()
+}
+```
+
+Now start the server and browse to http://localhost:8080/hello
+```sh
+node index
+```
+---
+
+### CJS syntax
+
 Startup file at /index.js or /main.js :
 ```javascript
 require('a1-server').start().catch(console.error)
@@ -31,11 +65,11 @@ require('a1-server').start().catch(console.error)
 Dynamic page at /app/hello.js;
 ```javascript
 module.exports = { get }
+
 function get() {
-  return 'Now is '+ (new Date()).toTimeString()
+  return 'Now is '+ new Date()
 }
 ```
-
 Now start the server and browse to http://localhost:8080/hello
 ```sh
 node index
