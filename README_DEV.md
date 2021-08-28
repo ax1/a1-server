@@ -1,17 +1,23 @@
 ## EXECUTE
 
 ```sh
-cd a1-server/demo 
-
+cd a1-server
 PERFORMANCE=true npm start
+
+# vs RAW server
+node benchmark/rawServer
 ```
 
 ## TEST
 
+```sh
 ab -r -n 100000 -c 1000  http://localhost:8080/test
+```
 
 ## PERFORMANCE (1 thread)
-
+- solved degradation in normal mode 11.5K req/sec (by using a cache for imports).
+- SEVERE degradation to 4.5K in normal mode. The change of await import(file) instead of require(file) is dramatically SLOW. It must be solved somehow because that change was necessary to allow using ESM with the server.
+- degradation to 16.5K on v16.6.0 (rawServer still has 17.2, but the degradation has been because we (testex by changing the lines) now support ESM modules, so in server.js, instead of dynamicFile->require(resource) we use dynamicFile->await import(resource) and that has a penalty. Anyway, it does not hurt because in exchange we have full support for ESM projects)
 - improved to 17K on v13.5.0 (v13 has latest V8 perf. improvement, rawServer has also 17K so V8 performs optimizations)
 - improved to 15K on same v12.13.0 LTS (maybe older tests were executed without the PERFORMANCE flag)
 - degradation to 10K on same v12.13.0 LTS (OS problem? because raw node has also a big decrease to 16K, see below)
