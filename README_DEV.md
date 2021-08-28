@@ -2,6 +2,11 @@
 
 ```sh
 cd a1-server
+
+# normal mode
+npm start
+
+# perf mode
 PERFORMANCE=true npm start
 
 # vs RAW server
