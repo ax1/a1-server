@@ -1,5 +1,4 @@
 const assert = require('assert')
-const fetch = require('node-fetch')
 const host = 'http://localhost:8080'
 
 module.exports = { test }
