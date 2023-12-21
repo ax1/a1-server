@@ -226,15 +226,14 @@ Example:
 
 
 ```javascript
-module.exports = { options, get }
 
 // normal (synchronous) function since no blocking code
-function options(request, response, params) {
+export function options(request, response, params) {
   return ['GET']
 }
 
 // async keyword to avoid blocking
-async function get(request, response, params) {
+export async function get(request, response, params) {
   return await database.get(params.id)
 }
 ```
@@ -293,7 +292,7 @@ The `params` object is already filled as declared in the rule. If the URL has a 
 // file at /app/cars.js
 
 const http = require('http')
-module.exports = { get, post, put, delete:remove }
+export { get, post, put, remove} // note `remove` instead of delete 
 
 // emulate a database
 var cars = {
@@ -342,7 +341,7 @@ async function put(...){...}
 async function remove(...){...}
 ```
 
-> Note: to use the `delete` method, and avoid eslint or typescript warnings, declare the method with your preferred name (remove(), _delete(), etc...) in the `module.exports` variable. E.g: `module.exports = { get, post, put, delete: remove}`
+> Note: since `delete` is already a JS keyword, you can either implement `remove()` method instead. Another option is to export as an alias `export { remove as delete }`.
 
 ### throw() vs response error
 
