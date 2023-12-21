@@ -1,6 +1,6 @@
 # a1-server
 
-Tiny (but complete) web server.
+Small, efficient, web server.
 
 All the basic features in one module, routing, static & dynamic pages, REST services and reverse-proxy.
 
@@ -8,7 +8,7 @@ Built-in logger, or use external loggers at any time with no code refactoring.
 
 Install express/connect middleware or create your own plugins.
 
-Check the [release notes](VERSIONS.md) when updating the server.
+Check the [release notes](VERSIONS.md) for changes when updating the server.
 
 
 ## Installation
@@ -19,9 +19,7 @@ npm install a1-server
 
 ## 1 min Tutorial
 
-Creating your own server has never been easier. The default configuration is quite handy (port 8080, static files at folder `/public` and dynamic files at folder `/app`)
-
-The server can be used either on ESM projects or CJS projects.
+The default configuration is port 8080, static files at folder `/public` and dynamic files at folder `/app`. The server can be used either on ESM projects or CJS projects.
 
 ---
 
@@ -82,11 +80,11 @@ node index
 
 ### Starting the server
 
-This module returns a promise after started. The parameter returned is a node [http server](https://nodejs.org/api/http.html#http_class_http_server). Then you could use the node httpServer object to, for instance, attach a web socket.
+This module returns a promise after start(). The parameter returned is a node [http server](https://nodejs.org/api/http.html#http_class_http_server). Then you could use the node httpServer object to, for instance, attach a web socket.
 
 ```javascript
 // --index.js page--
-const server = require('a1-server')
+import * as server from 'a1-server'
 // select start type (different options)
 server.start()   // default 8080 port
 server.start(8081) // custom port
@@ -194,7 +192,7 @@ const rules = {
   '/machines(/:id(/:date))': 'machines', // /machines /machines/abc or machines/abc/20201231
 }
 const configuration = { rules }
-server.start(configuration)
+await server.start(configuration)
 ```
 
 #### External Routing
@@ -256,9 +254,7 @@ REST service:
 
 ```javascript
 // file /app/people.js
-module.exports = { get }
-
-function get(req, res, params) {
+export function get(req, res, params) {
   const name = params.p0
   const consult = params.p1
   return params
@@ -290,9 +286,8 @@ The `params` object is already filled as declared in the rule. If the URL has a 
 
 ```javascript
 // file at /app/cars.js
-
-const http = require('http')
-export { get, post, put, remove} // note `remove` instead of delete 
+import { STATUS_CODES } from 'http'
+export { get, post, put, remove} // note `remove` instead of delete, this is translated automatically to DELETE method 
 
 // emulate a database
 var cars = {
@@ -311,7 +306,7 @@ async function getItem(request, response, params) {
   const obj = cars[params.id]
   if (!obj) {
     response.statusCode = 404
-    return http.STATUS_CODES[404] // optional, send status message
+    return STATUS_CODES[404] // optional, send status message
   }
   else return obj
 }
@@ -341,7 +336,7 @@ async function put(...){...}
 async function remove(...){...}
 ```
 
-> Note: since `delete` is already a JS keyword, you can either implement `remove()` method instead. Another option is to export as an alias `export { remove as delete }`.
+> Note: since `delete` is already a JS keyword, you can implement `remove()` method instead. Another option is to export any function name as an alias `export { remove as delete }`.
 
 ### throw() vs response error
 
@@ -357,7 +352,7 @@ async function getItem(request, response, params) {
   else return obj
 }
 ```
-- **Setting the status code and text in the response**: You are responsible of sending useful info to the user or to the service client. But be careful not to send exception error texts from node core or modules (error.text = sentitive info).
+- **Setting the status code and text in the response**: You are responsible of sending useful info to the user or to the service client. But be careful not to send exception error texts from node core or modules (error.text = sensitive info).
 
 ```javascript
 async function getItem(request, response, params) {
@@ -365,7 +360,7 @@ async function getItem(request, response, params) {
   if (!obj) {
     response.statusCode = 404
     return 'Item not found'
-    // return http.STATUS_CODES[404]
+    // return STATUS_CODES[404]
   }
   else return obj
 }
@@ -378,7 +373,7 @@ Unlike GET method, these ones can contain data (payload) in the request. The bui
 Depending of body content-type to be sent:
 - `http://server/?param1=value1 (application/x-www-form-urlencoded)`. `request.body` is available
 - `JSON or text in body (text/plain, application/json)`. `request.body` is available as String
-- `File or keyvalue form (multipart/form-data)`. `request.body` not available. The body content must be parsed manually. See example in `demo` folder.
+- `File or keyValue form (multipart/form-data)`. `request.body` not available. The body content must be parsed manually. See example in `demo` folder.
 
 You can disable the built-in feature and use third party plugins ( [body-parser](https://www.npmjs.com/package/body-parser) and others) for parsing the body. These plugins usually add the `files` or `body` properties in the request.
 
@@ -394,20 +389,20 @@ There are two types of plugins:
 
 
 ```javascript
-const server = require('a1-server)
+import * as server from 'a1-server'
 
 // standard sync plugin
 server.addBefore((req, res) => console.log(req.url))
 
-// standard async pluging
+// standard async plugin
 server.addBefore(async (req, res) => await checkAuthorization(req))
 
-// standard pluging executed after output created but before sent to client
+// standard plugin executed after output created but before sent to client
 server.addAfter((req, res) => res.setHeader('X-verification', createToken(res)))
 
 // express-type plugin (middleware)
-const morgan = require('morgan')
-server.use(morgan('combined'))
+const expressPlugin = require('expressPlugin')
+server.use(expressPlugin())
 
 // custom plugin in middleware format
 server.use( (req, res, next) => {
@@ -416,13 +411,13 @@ server.use( (req, res, next) => {
 })
 ```
 
-### WebSockets
+### WebSockets [@Deprecated since Node21 has experimental websocket]
 
 The code below is a full example of starting an http server and a websocket server. For more details, see the [ws](https://www.npmjs.com/package/ws) module package.
 
 ```javascript
-const server = require('a1-server')
-const WebSocketServer = require('ws').Server
+import * as server from 'a1-server'
+import { Server as WebSocketServer } from 'ws'
 
 server.start()
   .then(httpServer => startWebsocket(httpServer))
@@ -454,7 +449,8 @@ server.start(configuration)
 
 // STEP-2 use the standard logger (it behaves as a proxy for the real logger)
 // in your js files
-const Logger = require('a1-server').Logger
+import * as server from 'a1-server'
+const Logger = server.Logger
 const logger = Logger.getLogger('your-logger-name')
 // ...
 logger.error(err) // logged by using winston
@@ -463,7 +459,7 @@ logger.info('hi') // logged by using winston
 In development time, the default logger is attached to the console, so use logging instead of console.* methods from the beginning. If you prefer to have another logger later, just add it into the config object. 
 
 ```javascript
-const { start, Logger } = require('a1-server)
+import {start,Logger} from 'a1-server'
 start({ Logger: Logger.NoOutputLogger })
 ```
 
