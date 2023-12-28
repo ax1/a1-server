@@ -134,6 +134,24 @@ describe('requests (static & dynamic)', () => {
   })
 })
 
+//--------------Control response not chunked in general (issue #31)---------
+describe('Response is not chunked by default (unless big response)', () => {
+  it('Static small response is not chunked', (done) => {
+    chai.request(host).get('/index.html').end((err, res) => {
+      res.should.have.header('Content-Length')
+      res.should.not.have.header('Transfer-Encoding')
+      done()
+    })
+  })
+  it('Dynamic small response is not chunked', (done) => {
+    chai.request(host).get('/cars').end((err, res) => {
+      res.should.have.header('Content-Length')
+      res.should.not.have.header('Transfer-Encoding')
+      done()
+    })
+  })
+})
+
 //----------------------ZERO CONFIG rest requests---------
 describe('ZERO CONFIG REST services (no need to config rules)', () => {
   var service = '/people/Harris/permissions'
