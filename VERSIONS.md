@@ -2,6 +2,11 @@
 
 For in-depth changes, see the source code or the commit messages.
 
+### 3.10.0
+- http responses are not chunked unless explicit or when big files/payloads.
+- REST delete() can be set as alias or using remove() method automatically.
+- from now, the documentation will be mainly in ESM syntax.
+
 ### 3.9.0
 - new projects can use ESM modules. CJS is also valid as usual.
 
