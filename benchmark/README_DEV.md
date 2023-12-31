@@ -20,7 +20,8 @@ ab -r -n 100000 -c 1000  http://localhost:8080/test
 ```
 
 ## PERFORMANCE (1 thread)
-- 13K with node 19.3 but 6.8K with node 20.7, and also tested from older checkout commited with 19.3 and using the checkout with node 20 is the same. The ab seems to block for a while to close all requests at the end. So it seems a big change in node version, and not a degradation because of the code changes. Why that final lock will be investigated later.
+- 10K with node 21.5, degradation has been mitigated from 20, but still some frozen-like time after al requests are performed
+- 6.8K with node 20.7, tested also previous benchmark commit and also checked with node 19-> the problem is node 20. The ab seems to block for a while to close all requests at the end. So it seems a big change in node version, and not a degradation because of the code changes. Why that final lock will be investigated later.
 - 14-15K with node 19.3 version
 - node 18.8  at 14.5K/s
 - solved degradation in normal mode 11.5K req/sec (by using a cache for imports).
