@@ -103,6 +103,7 @@ node index.js
 
 - default port is 8080, no config required
 - using the env variable PORT when starting `PORT=8081 node index`
+- or use the port as first argument `node index 8081`
 - or use the port property in the index.js code `server.start(8081)`
 
 
